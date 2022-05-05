@@ -1,6 +1,7 @@
 from itertools import count
 import re
 import sys, os
+from typing import Literal
 from flask import Flask, jsonify
 
 def override_where():
@@ -191,19 +192,6 @@ def truncarHastaPrimerPunto(text):
            break
     return finalText
 
-#Comprobamos cúales de las condiciones del while son correctas
-def comprobarCondiciones(text, version):
-    print("CONDICION 1: " + str(text == ""))
-    print("CONDICION 2: " + str(len(text) < 7))
-    print("CONDICION 3: " + str(len(text) > 200))
-    if text != "":
-        print("CONDICION 4: " + str(startWithMayus(text) == False))
-        print("CONDICION 5: " + str(isAllStringEqual(text) == True))
-        print("CONDICION 6: " + str(maxPoints(text) > 1))  
-        print("CONDICION 7: " + str(thereIsParentesis(text)))
-        print("CONDICION 8: " + str(version == "openai" and is_ascii(text) == False))
-        print("CONDICION 9: " + str((version == "maria-large" or version == "maria-base") and is_ascii2(text, version) == False))   
-
 #Comprobamos si la nueva línea es igual a alguna anterior
 def lineasIguales(sequence, text):
 
@@ -266,20 +254,27 @@ def getSentenceGPT2(version, sequence):
         text = tokenizer.decode(outputs[0], skip_special_tokens=True)        
         text = searchResponseCountOrder(text, order)
         text = searchEndSentence(text)  
-        text = truncarHastaPrimerPunto(text)    
-        #comprobarCondiciones(text, version) 
+        text = truncarHastaPrimerPunto(text)  
 
     textExit = ' ' + text
     textExit = finalizeTextExit(textExit)    
     return jsonify({"message": textExit})
 
+def decode(key, filename):
+    cipher = open(filename,'rb').read()
+    reps = (len(cipher)-1)//len(key) +1
+    key = (key * reps)[:len(cipher)].encode('utf-8')
+    clear = bytes([i1^i2 for (i1,i2) in zip(cipher,key)])
+    return clear.decode('utf-8')
+
 @app.route('/gpt3/<string:version>/<string:sequence>')
 def getSentenceGPT3(version, sequence):  
 
     import openai
+    import sys
       
-    OPENAI_API_KEY="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"
-    openai.organization = "org-HBdIePLkSXQJKL3DVKc07ING"
+    OPENAI_API_KEY=decode("26", "keys/OPENAI_API_KEY")
+    openai.organization = decode("32", "keys/OPENAI_ORGANIZATION")
     openai.api_key = OPENAI_API_KEY
     openai.Engine.list()
 
