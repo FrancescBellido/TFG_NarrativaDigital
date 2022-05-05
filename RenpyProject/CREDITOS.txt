@@ -1,0 +1,34 @@
+El software asociado a este proyecto utiliza assets de libre uso para las imágenes de los personajes y de las escenas, además de efectos de sonido.
+
+Agradecer a los siguientes usuarios de itch.io por sus imágenes:
+
+- Fülli (https://fuelli.itch.io/)
+- NoranekoGames (https://itch.io/profile/noranekogames)
+- Potat0Master (https://potat0master.itch.io/)
+- Konett (https://konett.itch.io/)
+
+Agradecer a los siguientes usuarios de Freesound por sus sonidos:
+
+- inchadney (https://freesound.org/people/inchadney/)
+- sound_designer_from_Turkey (https://freesound.org/people/sound_designer_from_Turkey/)
+- InspectorJ (https://freesound.org/people/InspectorJ/)
+- Fupicat (https://freesound.org/people/Fupicat/)
+- TaranP (https://freesound.org/people/TaranP/)
+
+A continuación comparto los enlaces donde se pueden obtener todas las imágenes y sonidos usados en el juego:
+
+#Imágenes de personajes
+https://fuelli.itch.io/free-to-use-character-sprites (Libre uso con créditos, tras contactar con la autora de los sprites se indica que la licencia es CC-BY-NC 4.0)
+
+#Imágenes de escenas
+https://noranekogames.itch.io/yumebackground (Libre uso con créditos)
+https://potat0master.itch.io/free-visual-novel-backgrounds-starter-pack (This pack has a royalty free license)
+https://potat0master.itch.io/free-visual-novel-backgrounds-starter-pack-2 (This pack has a royalty free license)
+https://konett.itch.io/modern-visual-novel-backgrounds (CC-BY 4.0 license)
+
+#Sonidos
+https://freesound.org/people/inchadney/sounds/457869/ (This work is licensed under the Attribution Noncommercial License)
+https://freesound.org/people/sound_designer_from_Turkey/sounds/613178/ (This work is licensed under the Creative Commons 0 License)
+https://freesound.org/people/InspectorJ/sounds/346573/ (This work is licensed under the Attribution License)
+https://freesound.org/people/Fupicat/sounds/521646/ (This work is licensed under the Creative Commons 0 License)
+https://freesound.org/people/TaranP/sounds/362204/ (This work is licensed under the Creative Commons 0 License)
