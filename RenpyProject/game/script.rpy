@@ -86,6 +86,10 @@ image bg train:
 
 label start:
 
+    $num_pregs1 = 0
+    $num_pregs2 = 0
+    $num_pregs3 = 0
+
     scene bg room dark  
     play music "audio/613178__sound-designer-from-turkey__music-box-g-4-4-60-bpm.ogg" volume 0.5 fadein 0.5
 
@@ -94,16 +98,18 @@ label start:
     #version = "openai" #openai, maria-large, maria-base
 
     define police_EN = Character("Police Chief")
-    define suspect_EN = Character("Suspect")
     define you_EN = Character("You")
     define telephone_EN = Character("Telephone")
     define think_EN = Character("Your thoughts")
 
     define police_ES = Character("Jefe de policías")
-    define suspect_ES = Character("Sospechoso")
     define you_ES = Character("Tú")
     define telephone_ES = Character("Teléfono")
     define think_ES = Character("Tus pensamientos")
+
+    define firstSuspect = Character("Anna")
+    define secondSuspect = Character("Daniel")
+    define thirdSuspect = Character("Emma")
 
     transform centerleft:
         xalign 0.25
@@ -143,7 +149,8 @@ label start:
 
     python:        
         conversation = ''
-        killerRand = random.randrange(1, 3)
+        numsToKill =  [1, 2, 3]
+        killerRand = random.choice(numsToKill)
 
         if version == "maria-large" or version == "maria-base" or version == "spanish":
             question1 = "¿Conocías al vecino asesinado?"
@@ -669,7 +676,7 @@ label start:
             show sprite1 sad small at centerleft with dissolve
             show sprite4 sad small at center with dissolve  
             show sprite2 sad small at centerright with dissolve                      
-            police_ES "Estos tres estaban por la zona a la hora del asesinato. No les juzgues por su apariencia, el androide puede ser cualquiera."
+            police_ES "Estos tres estaban por la zona a la hora del asesinato. No les juzgues por su apariencia, el androide puede ser cualquiera. Nosotros únicamente conocemos sus nombres: Anna, Daniel y Emma."
             hide sprite1 sad small at centerleft with dissolve
             hide sprite4 sad small at center with dissolve  
             hide sprite2 sad small at centerright with dissolve  
@@ -706,7 +713,7 @@ label start:
             show sprite1 sad small at centerleft with dissolve
             show sprite4 sad small at center with dissolve  
             show sprite2 sad small at centerright with dissolve     
-            police_EN "These three were in the area at the time of the murder. Don't judge them by their appearance, the android can be anyone."
+            police_EN "These three were in the area at the time of the murder. Don't judge them by their appearance, the android can be anyone. We only know their names: Anna, Daniel and Emma."
             hide sprite1 sad small at centerleft with dissolve
             hide sprite4 sad small at center with dissolve  
             hide sprite2 sad small at centerright with dissolve   
@@ -726,48 +733,51 @@ label start:
                             menu:
                                 "¿Conocías al vecino asesinado?":
                                     if killer != 1:
-                                        if numRespuestaHumana1__T1 == "1":                                       
-                                            suspect_ES "[pregunta1respuesta1]" 
+                                        if numRespuestaHumana1__T1 == "1":                                                                                
+                                            firstSuspect "[pregunta1respuesta1]" 
                                         elif numRespuestaHumana1__T1 == "2": 
-                                            suspect_ES "[pregunta1respuesta2]" 
+                                            firstSuspect "[pregunta1respuesta2]" 
                                         elif numRespuestaHumana1__T1 == "3": 
-                                            suspect_ES "[pregunta1respuesta3]" 
+                                            firstSuspect "[pregunta1respuesta3]" 
                                         elif numRespuestaHumana1__T1 == "4": 
-                                            suspect_ES "[pregunta1respuesta4]" 
+                                            firstSuspect "[pregunta1respuesta4]" 
                                         elif numRespuestaHumana1__T1 == "5": 
-                                            suspect_ES "[pregunta1respuesta5]" 
+                                            firstSuspect "[pregunta1respuesta5]" 
                                     else:
-                                        suspect_ES "[response1]" 
+                                        firstSuspect "[response1]" 
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema1sospechoso1castellano
                                 "¿Alguna vez has visto al vecino por la calle?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T1 == "1":                                       
-                                            suspect_ES "[pregunta2respuesta1]" 
+                                            firstSuspect "[pregunta2respuesta1]" 
                                         elif numRespuestaHumana1__T1 == "2": 
-                                            suspect_ES "[pregunta2respuesta2]" 
+                                            firstSuspect "[pregunta2respuesta2]" 
                                         elif numRespuestaHumana1__T1 == "3": 
-                                            suspect_ES "[pregunta2respuesta3]" 
+                                            firstSuspect "[pregunta2respuesta3]" 
                                         elif numRespuestaHumana1__T1 == "4": 
-                                            suspect_ES "[pregunta2respuesta4]" 
+                                            firstSuspect "[pregunta2respuesta4]" 
                                         elif numRespuestaHumana1__T1 == "5": 
-                                            suspect_ES "[pregunta2respuesta5]" 
+                                            firstSuspect "[pregunta2respuesta5]" 
                                     else:
-                                        suspect_ES "[response2]"
+                                        firstSuspect "[response2]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema1sospechoso1castellano
                                 "¿Alguna vez has oído hablar del vecino?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T1 == "1":                                       
-                                            suspect_ES "[pregunta3respuesta1]" 
+                                            firstSuspect "[pregunta3respuesta1]" 
                                         elif numRespuestaHumana1__T1 == "2": 
-                                            suspect_ES "[pregunta3respuesta2]" 
+                                            firstSuspect "[pregunta3respuesta2]" 
                                         elif numRespuestaHumana1__T1 == "3": 
-                                            suspect_ES "[pregunta3respuesta3]" 
+                                            firstSuspect "[pregunta3respuesta3]" 
                                         elif numRespuestaHumana1__T1 == "4": 
-                                            suspect_ES "[pregunta3respuesta4]" 
+                                            firstSuspect "[pregunta3respuesta4]" 
                                         elif numRespuestaHumana1__T1 == "5": 
-                                            suspect_ES "[pregunta3respuesta5]" 
+                                            firstSuspect "[pregunta3respuesta5]" 
                                     else:
-                                        suspect_ES "[response3]"
+                                        firstSuspect "[response3]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema1sospechoso1castellano
                                 "Volver atrás":
                                     jump interrogation
@@ -777,47 +787,50 @@ label start:
                                 "¿Qué estuviste haciendo anoche?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T2 == "1":                                       
-                                            suspect_ES "[pregunta4respuesta1]" 
+                                            firstSuspect "[pregunta4respuesta1]" 
                                         elif numRespuestaHumana1__T2 == "2": 
-                                            suspect_ES "[pregunta4respuesta2]" 
+                                            firstSuspect "[pregunta4respuesta2]" 
                                         elif numRespuestaHumana1__T2 == "3": 
-                                            suspect_ES "[pregunta4respuesta3]" 
+                                            firstSuspect "[pregunta4respuesta3]" 
                                         elif numRespuestaHumana1__T2 == "4": 
-                                            suspect_ES "[pregunta4respuesta4]" 
+                                            firstSuspect "[pregunta4respuesta4]" 
                                         elif numRespuestaHumana1__T2 == "5": 
-                                            suspect_ES "[pregunta4respuesta5]" 
+                                            firstSuspect "[pregunta4respuesta5]" 
                                     else:
-                                        suspect_ES "[response4]" 
+                                        firstSuspect "[response4]" 
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema2sospechoso1castellano
                                 "¿Sueles salir por la noche?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T2 == "1":                                       
-                                            suspect_ES "[pregunta5respuesta1]" 
+                                            firstSuspect "[pregunta5respuesta1]" 
                                         elif numRespuestaHumana1__T2 == "2":   
-                                            suspect_ES "[pregunta5respuesta2]" 
+                                            firstSuspect "[pregunta5respuesta2]" 
                                         elif numRespuestaHumana1__T2 == "3": 
-                                            suspect_ES "[pregunta5respuesta3]" 
+                                            firstSuspect "[pregunta5respuesta3]" 
                                         elif numRespuestaHumana1__T2 == "4": 
-                                            suspect_ES "[pregunta5respuesta4]" 
+                                            firstSuspect "[pregunta5respuesta4]" 
                                         elif numRespuestaHumana1__T2 == "5": 
-                                            suspect_ES "[pregunta5respuesta5]" 
+                                            firstSuspect "[pregunta5respuesta5]" 
                                     else:
-                                        suspect_ES "[response5]"
+                                        firstSuspect "[response5]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema2sospechoso1castellano
                                 "¿No tienes miedo de salir a esas horas?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T2 == "1":                                       
-                                            suspect_ES "[pregunta6respuesta1]" 
+                                            firstSuspect "[pregunta6respuesta1]" 
                                         elif numRespuestaHumana1__T2 == "2": 
-                                            suspect_ES "[pregunta6respuesta2]" 
+                                            firstSuspect "[pregunta6respuesta2]" 
                                         elif numRespuestaHumana1__T2 == "3": 
-                                            suspect_ES "[pregunta6respuesta3]" 
+                                            firstSuspect "[pregunta6respuesta3]" 
                                         elif numRespuestaHumana1__T2 == "4": 
-                                            suspect_ES "[pregunta6respuesta4]" 
+                                            firstSuspect "[pregunta6respuesta4]" 
                                         elif numRespuestaHumana1__T2 == "5": 
-                                            suspect_ES "[pregunta6respuesta5]" 
+                                            firstSuspect "[pregunta6respuesta5]" 
                                     else:
-                                        suspect_ES "[response6]"
+                                        firstSuspect "[response6]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema2sospechoso1castellano  
                                 "Volver atrás":
                                     jump interrogation
@@ -827,47 +840,50 @@ label start:
                                 "¿Por qué pasaste por el vecindario?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T3 == "1":                                       
-                                            suspect_ES "[pregunta7respuesta1]" 
+                                            firstSuspect "[pregunta7respuesta1]" 
                                         elif numRespuestaHumana1__T3 == "2": 
-                                            suspect_ES "[pregunta7respuesta2]" 
+                                            firstSuspect "[pregunta7respuesta2]" 
                                         elif numRespuestaHumana1__T3 == "3": 
-                                            suspect_ES "[pregunta7respuesta3]" 
+                                            firstSuspect "[pregunta7respuesta3]" 
                                         elif numRespuestaHumana1__T3 == "4": 
-                                            suspect_ES "[pregunta7respuesta4]" 
+                                            firstSuspect "[pregunta7respuesta4]" 
                                         elif numRespuestaHumana1__T3 == "5": 
-                                            suspect_ES "[pregunta7respuesta5]" 
+                                            firstSuspect "[pregunta7respuesta5]" 
                                     else:
-                                        suspect_ES "[response7]" 
+                                        firstSuspect "[response7]" 
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema3sospechoso1castellano
                                 "¿Conocías a alguna persona del vecindario?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T3 == "1":                                       
-                                            suspect_ES "[pregunta8respuesta1]" 
+                                            firstSuspect "[pregunta8respuesta1]" 
                                         elif numRespuestaHumana1__T3 == "2": 
-                                            suspect_ES "[pregunta8respuesta2]" 
+                                            firstSuspect "[pregunta8respuesta2]" 
                                         elif numRespuestaHumana1__T3 == "3": 
-                                            suspect_ES "[pregunta8respuesta3]" 
+                                            firstSuspect "[pregunta8respuesta3]" 
                                         elif numRespuestaHumana1__T3 == "4": 
-                                            suspect_ES "[pregunta8respuesta4]" 
+                                            firstSuspect "[pregunta8respuesta4]" 
                                         elif numRespuestaHumana1__T3 == "5": 
-                                            suspect_ES "[pregunta8respuesta5]" 
+                                            firstSuspect "[pregunta8respuesta5]" 
                                     else:
-                                        suspect_ES "[response8]"
+                                        firstSuspect "[response8]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema3sospechoso1castellano
                                 "¿El vecindario es un lugar de tránsito frecuente para ti?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T3 == "1":                                       
-                                            suspect_ES "[pregunta9respuesta1]" 
+                                            firstSuspect "[pregunta9respuesta1]" 
                                         elif numRespuestaHumana1__T3 == "2": 
-                                            suspect_ES "[pregunta9respuesta2]" 
+                                            firstSuspect "[pregunta9respuesta2]" 
                                         elif numRespuestaHumana1__T3 == "3": 
-                                            suspect_ES "[pregunta9respuesta3]"
+                                            firstSuspect "[pregunta9respuesta3]"
                                         elif numRespuestaHumana1__T3 == "4": 
-                                            suspect_ES "[pregunta9respuesta4]" 
+                                            firstSuspect "[pregunta9respuesta4]" 
                                         elif numRespuestaHumana1__T3 == "5": 
-                                            suspect_ES "[pregunta9respuesta5]"  
+                                            firstSuspect "[pregunta9respuesta5]"  
                                     else:
-                                        suspect_ES "[response9]"
+                                        firstSuspect "[response9]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema3sospechoso1castellano  
                                 "Volver atrás":
                                     jump interrogation
@@ -877,47 +893,50 @@ label start:
                                 "¿Tienes antecedentes penales?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T4 == "1":                                       
-                                            suspect_ES "[pregunta10respuesta1]" 
+                                            firstSuspect "[pregunta10respuesta1]" 
                                         elif numRespuestaHumana1__T4 == "2": 
-                                            suspect_ES "[pregunta10respuesta2]" 
+                                            firstSuspect "[pregunta10respuesta2]" 
                                         elif numRespuestaHumana1__T4 == "3": 
-                                            suspect_ES "[pregunta10respuesta3]" 
+                                            firstSuspect "[pregunta10respuesta3]" 
                                         elif numRespuestaHumana1__T4 == "4": 
-                                            suspect_ES "[pregunta10respuesta4]" 
+                                            firstSuspect "[pregunta10respuesta4]" 
                                         elif numRespuestaHumana1__T4 == "5": 
-                                            suspect_ES "[pregunta10respuesta5]" 
+                                            firstSuspect "[pregunta10respuesta5]" 
                                     else:
-                                        suspect_ES "[response10]" 
+                                        firstSuspect "[response10]" 
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema4sospechoso1castellano
                                 "¿Alguna vez han detenido a algún conocido tuyo?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T4 == "1":                                       
-                                            suspect_ES "[pregunta11respuesta1]" 
+                                            firstSuspect "[pregunta11respuesta1]" 
                                         elif numRespuestaHumana1__T4 == "2": 
-                                            suspect_ES "[pregunta11respuesta2]" 
+                                            firstSuspect "[pregunta11respuesta2]" 
                                         elif numRespuestaHumana1__T4 == "3": 
-                                            suspect_ES "[pregunta11respuesta3]" 
+                                            firstSuspect "[pregunta11respuesta3]" 
                                         elif numRespuestaHumana1__T4 == "4": 
-                                            suspect_ES "[pregunta11respuesta4]" 
+                                            firstSuspect "[pregunta11respuesta4]" 
                                         elif numRespuestaHumana1__T4 == "5": 
-                                            suspect_ES "[pregunta11respuesta5]" 
+                                            firstSuspect "[pregunta11respuesta5]" 
                                     else:
-                                        suspect_ES "[response11]"
+                                        firstSuspect "[response11]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema4sospechoso1castellano
                                 "¿Sabes cúal es la condena por asesinar a alguien?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T4 == "1":                                       
-                                            suspect_ES "[pregunta12respuesta1]" 
+                                            firstSuspect "[pregunta12respuesta1]" 
                                         elif numRespuestaHumana1__T4 == "2": 
-                                            suspect_ES "[pregunta12respuesta2]" 
+                                            firstSuspect "[pregunta12respuesta2]" 
                                         elif numRespuestaHumana1__T4 == "3": 
-                                            suspect_ES "[pregunta12respuesta3]" 
+                                            firstSuspect "[pregunta12respuesta3]" 
                                         elif numRespuestaHumana1__T4 == "4": 
-                                            suspect_ES "[pregunta12respuesta4]" 
+                                            firstSuspect "[pregunta12respuesta4]" 
                                         elif numRespuestaHumana1__T4 == "5": 
-                                            suspect_ES "[pregunta12respuesta5]" 
+                                            firstSuspect "[pregunta12respuesta5]" 
                                     else:
-                                        suspect_ES "[response12]"
+                                        firstSuspect "[response12]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema4sospechoso1castellano
                                 "Volver atrás":
                                     jump interrogation
@@ -936,47 +955,50 @@ label start:
                                 "Did you know the murdered neighbor?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T1 == "1":                                       
-                                            suspect_EN "[pregunta1respuesta1]" 
+                                            firstSuspect "[pregunta1respuesta1]" 
                                         elif numRespuestaHumana1__T1 == "2": 
-                                            suspect_EN "[pregunta1respuesta2]" 
+                                            firstSuspect "[pregunta1respuesta2]" 
                                         elif numRespuestaHumana1__T1 == "3": 
-                                            suspect_EN "[pregunta1respuesta3]" 
+                                            firstSuspect "[pregunta1respuesta3]" 
                                         elif numRespuestaHumana1__T1 == "4": 
-                                            suspect_ES "[pregunta1respuesta4]" 
+                                            firstSuspect "[pregunta1respuesta4]" 
                                         elif numRespuestaHumana1__T1 == "5": 
-                                            suspect_ES "[pregunta1respuesta5]" 
+                                            firstSuspect "[pregunta1respuesta5]" 
                                     else:
-                                        suspect_EN "[response1]" 
+                                        firstSuspect "[response1]" 
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema1sospechoso1ingles
                                 "Have you ever seen the neighbor on the street?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T1 == "1":                                       
-                                            suspect_EN "[pregunta2respuesta1]" 
+                                            firstSuspect "[pregunta2respuesta1]" 
                                         elif numRespuestaHumana1__T1 == "2": 
-                                            suspect_EN "[pregunta2respuesta2]" 
+                                            firstSuspect "[pregunta2respuesta2]" 
                                         elif numRespuestaHumana1__T1 == "3": 
-                                            suspect_EN "[pregunta2respuesta3]" 
+                                            firstSuspect "[pregunta2respuesta3]" 
                                         elif numRespuestaHumana1__T1 == "4": 
-                                            suspect_ES "[pregunta2respuesta4]" 
+                                            firstSuspect "[pregunta2respuesta4]" 
                                         elif numRespuestaHumana1__T1 == "5": 
-                                            suspect_ES "[pregunta2respuesta5]" 
+                                            firstSuspect "[pregunta2respuesta5]" 
                                     else:
-                                        suspect_EN "[response2]"
+                                        firstSuspect "[response2]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema1sospechoso1ingles
                                 "Have you ever heard of the neighbor?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T1 == "1":                                       
-                                            suspect_EN "[pregunta3respuesta1]" 
+                                            firstSuspect "[pregunta3respuesta1]" 
                                         elif numRespuestaHumana1__T1 == "2": 
-                                            suspect_EN "[pregunta3respuesta2]" 
+                                            firstSuspect "[pregunta3respuesta2]" 
                                         elif numRespuestaHumana1__T1 == "3": 
-                                            suspect_EN "[pregunta3respuesta3]" 
+                                            firstSuspect "[pregunta3respuesta3]" 
                                         elif numRespuestaHumana1__T1 == "4": 
-                                            suspect_ES "[pregunta3respuesta4]" 
+                                            firstSuspect "[pregunta3respuesta4]" 
                                         elif numRespuestaHumana1__T1 == "5": 
-                                            suspect_ES "[pregunta3respuesta5]" 
+                                            firstSuspect "[pregunta3respuesta5]" 
                                     else:
-                                        suspect_EN "[response3]"
+                                        firstSuspect "[response3]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema1sospechoso1ingles
                                 "Go back":
                                     jump interrogation  
@@ -986,47 +1008,50 @@ label start:
                                 "What were you doing last night?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T2 == "1":                                       
-                                            suspect_EN "[pregunta4respuesta1]" 
+                                            firstSuspect "[pregunta4respuesta1]" 
                                         elif numRespuestaHumana1__T2 == "2": 
-                                            suspect_EN "[pregunta4respuesta2]" 
+                                            firstSuspect "[pregunta4respuesta2]" 
                                         elif numRespuestaHumana1__T2 == "3": 
-                                            suspect_EN "[pregunta4respuesta3]" 
+                                            firstSuspect "[pregunta4respuesta3]" 
                                         elif numRespuestaHumana1__T2 == "4": 
-                                            suspect_ES "[pregunta4respuesta4]" 
+                                            firstSuspect "[pregunta4respuesta4]" 
                                         elif numRespuestaHumana1__T2 == "5": 
-                                            suspect_ES "[pregunta4respuesta5]" 
+                                            firstSuspect "[pregunta4respuesta5]" 
                                     else:
-                                        suspect_EN "[response4]" 
+                                        firstSuspect "[response4]" 
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema2sospechoso1ingles
                                 "Do you usually go out at night?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T2 == "1":                                       
-                                            suspect_EN "[pregunta5respuesta1]" 
+                                            firstSuspect "[pregunta5respuesta1]" 
                                         elif numRespuestaHumana1__T2 == "2": 
-                                            suspect_EN "[pregunta5respuesta2]" 
+                                            firstSuspect "[pregunta5respuesta2]" 
                                         elif numRespuestaHumana1__T2 == "3": 
-                                            suspect_EN "[pregunta5respuesta3]" 
+                                            firstSuspect "[pregunta5respuesta3]" 
                                         elif numRespuestaHumana1__T2 == "4": 
-                                            suspect_ES "[pregunta5respuesta4]" 
+                                            firstSuspect "[pregunta5respuesta4]" 
                                         elif numRespuestaHumana1__T2 == "5": 
-                                            suspect_ES "[pregunta5respuesta5]" 
+                                            firstSuspect "[pregunta5respuesta5]" 
                                     else:
-                                        suspect_EN "[response5]"
+                                        firstSuspect "[response5]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema2sospechoso1ingles
                                 "Aren't you afraid to go out at that time?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T2 == "1":                                       
-                                            suspect_EN "[pregunta6respuesta1]" 
+                                            firstSuspect "[pregunta6respuesta1]" 
                                         elif numRespuestaHumana1__T2 == "2": 
-                                            suspect_EN "[pregunta6respuesta2]" 
+                                            firstSuspect "[pregunta6respuesta2]" 
                                         elif numRespuestaHumana1__T2 == "3": 
-                                            suspect_EN "[pregunta6respuesta3]" 
+                                            firstSuspect "[pregunta6respuesta3]" 
                                         elif numRespuestaHumana1__T2 == "4": 
-                                            suspect_ES "[pregunta6respuesta4]" 
+                                            firstSuspect "[pregunta6respuesta4]" 
                                         elif numRespuestaHumana1__T2 == "5": 
-                                            suspect_ES "[pregunta6respuesta5]" 
+                                            firstSuspect "[pregunta6respuesta5]" 
                                     else:
-                                        suspect_EN "[response6]"
+                                        firstSuspect "[response6]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema2sospechoso1ingles  
                                 "Go back":
                                     jump interrogation  
@@ -1036,47 +1061,50 @@ label start:
                                 "Why did you go through the neighborhood?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T3 == "1":                                       
-                                            suspect_EN "[pregunta7respuesta1]" 
+                                            firstSuspect "[pregunta7respuesta1]" 
                                         elif numRespuestaHumana1__T3 == "2": 
-                                            suspect_EN "[pregunta7respuesta2]" 
+                                            firstSuspect "[pregunta7respuesta2]" 
                                         elif numRespuestaHumana1__T3 == "3": 
-                                            suspect_EN "[pregunta7respuesta3]" 
+                                            firstSuspect "[pregunta7respuesta3]" 
                                         elif numRespuestaHumana1__T3 == "4": 
-                                            suspect_ES "[pregunta7respuesta4]" 
+                                            firstSuspect "[pregunta7respuesta4]" 
                                         elif numRespuestaHumana1__T3 == "5": 
-                                            suspect_ES "[pregunta7respuesta5]" 
+                                            firstSuspect "[pregunta7respuesta5]" 
                                     else:
-                                        suspect_EN "[response7]" 
+                                        firstSuspect "[response7]" 
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema3sospechoso1ingles
                                 "Did you know anyone in the neighborhood?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T3 == "1":                                       
-                                            suspect_EN "[pregunta8respuesta1]" 
+                                            firstSuspect "[pregunta8respuesta1]" 
                                         elif numRespuestaHumana1__T3 == "2": 
-                                            suspect_EN "[pregunta8respuesta2]" 
+                                            firstSuspect "[pregunta8respuesta2]" 
                                         elif numRespuestaHumana1__T3 == "3": 
-                                            suspect_EN "[pregunta8respuesta3]" 
+                                            firstSuspect "[pregunta8respuesta3]" 
                                         elif numRespuestaHumana1__T3 == "4": 
-                                            suspect_ES "[pregunta8respuesta4]" 
+                                            firstSuspect "[pregunta8respuesta4]" 
                                         elif numRespuestaHumana1__T3 == "5": 
-                                            suspect_ES "[pregunta8respuesta5]" 
+                                            firstSuspect "[pregunta8respuesta5]" 
                                     else:
-                                        suspect_EN "[response8]"
+                                        firstSuspect "[response8]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema3sospechoso1ingles
                                 "Is the neighborhood a frequent traffic place for you?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T3 == "1":                                       
-                                            suspect_EN "[pregunta9respuesta1]" 
+                                            firstSuspect "[pregunta9respuesta1]" 
                                         elif numRespuestaHumana1__T3 == "2": 
-                                            suspect_EN "[pregunta9respuesta2]" 
+                                            firstSuspect "[pregunta9respuesta2]" 
                                         elif numRespuestaHumana1__T3 == "3": 
-                                            suspect_EN "[pregunta9respuesta3]" 
+                                            firstSuspect "[pregunta9respuesta3]" 
                                         elif numRespuestaHumana1__T3 == "4": 
-                                            suspect_ES "[pregunta9respuesta4]" 
+                                            firstSuspect "[pregunta9respuesta4]" 
                                         elif numRespuestaHumana1__T3 == "5": 
-                                            suspect_ES "[pregunta9respuesta5]" 
+                                            firstSuspect "[pregunta9respuesta5]" 
                                     else:
-                                        suspect_EN "[response9]"
+                                        firstSuspect "[response9]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema3sospechoso1ingles  
                                 "Go back":
                                     jump interrogation  
@@ -1086,47 +1114,50 @@ label start:
                                 "Do you have a criminal record?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T4 == "1":                                       
-                                            suspect_EN "[pregunta10respuesta1]" 
+                                            firstSuspect "[pregunta10respuesta1]" 
                                         elif numRespuestaHumana1__T4 == "2": 
-                                            suspect_EN "[pregunta10respuesta2]" 
+                                            firstSuspect "[pregunta10respuesta2]" 
                                         elif numRespuestaHumana1__T4 == "3": 
-                                            suspect_EN "[pregunta10respuesta3]" 
+                                            firstSuspect "[pregunta10respuesta3]" 
                                         elif numRespuestaHumana1__T4 == "4": 
-                                            suspect_ES "[pregunta10respuesta4]" 
+                                            firstSuspect "[pregunta10respuesta4]" 
                                         elif numRespuestaHumana1__T4 == "5": 
-                                            suspect_ES "[pregunta10respuesta5]" 
+                                            firstSuspect "[pregunta10respuesta5]" 
                                     else:
-                                        suspect_EN "[response10]" 
+                                        firstSuspect "[response10]" 
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema4sospechoso1ingles
                                 "Has anyone you know ever been arrested?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T4 == "1":                                       
-                                            suspect_EN "[pregunta11respuesta1]" 
+                                            firstSuspect "[pregunta11respuesta1]" 
                                         elif numRespuestaHumana1__T4 == "2": 
-                                            suspect_EN "[pregunta11respuesta2]" 
+                                            firstSuspect "[pregunta11respuesta2]" 
                                         elif numRespuestaHumana1__T4 == "3": 
-                                            suspect_EN "[pregunta11respuesta3]" 
+                                            firstSuspect "[pregunta11respuesta3]" 
                                         elif numRespuestaHumana1__T4 == "4": 
-                                            suspect_ES "[pregunta11respuesta4]" 
+                                            firstSuspect "[pregunta11respuesta4]" 
                                         elif numRespuestaHumana1__T4 == "5": 
-                                            suspect_ES "[pregunta11respuesta5]" 
+                                            firstSuspect "[pregunta11respuesta5]" 
                                     else:
-                                        suspect_EN "[response11]"
+                                        firstSuspect "[response11]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema4sospechoso1ingles
                                 "Do you know what the sentence is for murdering someone?":
                                     if killer != 1:
                                         if numRespuestaHumana1__T4 == "1":                                       
-                                            suspect_EN "[pregunta12respuesta1]" 
+                                            firstSuspect "[pregunta12respuesta1]" 
                                         elif numRespuestaHumana1__T4 == "2": 
-                                            suspect_EN "[pregunta12respuesta2]" 
+                                            firstSuspect "[pregunta12respuesta2]" 
                                         elif numRespuestaHumana1__T4 == "3": 
-                                            suspect_EN "[pregunta12respuesta3]" 
+                                            firstSuspect "[pregunta12respuesta3]" 
                                         elif numRespuestaHumana1__T4 == "4": 
-                                            suspect_ES "[pregunta12respuesta4]" 
+                                            firstSuspect "[pregunta12respuesta4]" 
                                         elif numRespuestaHumana1__T4 == "5": 
-                                            suspect_ES "[pregunta12respuesta5]" 
+                                            firstSuspect "[pregunta12respuesta5]" 
                                     else:
-                                        suspect_EN "[response12]"
+                                        firstSuspect "[response12]"
+                                    $num_pregs1 = num_pregs1 + 1   
                                     jump tema4sospechoso1ingles
                                 "Go back":
                                     jump interrogation  
@@ -1148,47 +1179,50 @@ label start:
                                     "¿Conocías al vecino asesinado?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T1 == "1":                                        
-                                                suspect_ES "[pregunta1respuesta1]" 
+                                                secondSuspect "[pregunta1respuesta1]" 
                                             elif numRespuestaHumana2__T1 == "2": 
-                                                suspect_ES "[pregunta1respuesta2]" 
+                                                secondSuspect "[pregunta1respuesta2]" 
                                             elif numRespuestaHumana2__T1 == "3": 
-                                                suspect_ES "[pregunta1respuesta3]" 
+                                                secondSuspect "[pregunta1respuesta3]" 
                                             elif numRespuestaHumana2__T1 == "4": 
-                                                suspect_ES "[pregunta1respuesta4]" 
+                                                secondSuspect "[pregunta1respuesta4]" 
                                             elif numRespuestaHumana2__T1 == "5": 
-                                                suspect_ES "[pregunta1respuesta5]"                                                
+                                                secondSuspect "[pregunta1respuesta5]"                                                
                                         else:
-                                            suspect_ES "[response1]" 
+                                            secondSuspect "[response1]" 
+                                            $num_pregs2 = num_pregs2 + 1   
                                         jump tema1sospechoso2castellano
                                     "¿Alguna vez has visto al vecino por la calle?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T1 == "1":                                        
-                                                suspect_ES "[pregunta2respuesta1]" 
+                                                secondSuspect "[pregunta2respuesta1]" 
                                             elif numRespuestaHumana2__T1 == "2": 
-                                                suspect_ES "[pregunta2respuesta2]" 
+                                                secondSuspect "[pregunta2respuesta2]" 
                                             elif numRespuestaHumana2__T1 == "3": 
-                                                suspect_ES "[pregunta2respuesta3]" 
+                                                secondSuspect "[pregunta2respuesta3]" 
                                             elif numRespuestaHumana2__T1 == "4": 
-                                                suspect_ES "[pregunta2respuesta4]" 
+                                                secondSuspect "[pregunta2respuesta4]" 
                                             elif numRespuestaHumana2__T1 == "5": 
-                                                suspect_ES "[pregunta2respuesta5]" 
+                                                secondSuspect "[pregunta2respuesta5]" 
                                         else:
-                                            suspect_ES "[response2]"
+                                            secondSuspect "[response2]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema1sospechoso2castellano
                                     "¿Alguna vez has oído hablar del vecino?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T1 == "1":                                        
-                                                suspect_ES "[pregunta3respuesta1]" 
+                                                secondSuspect "[pregunta3respuesta1]" 
                                             elif numRespuestaHumana2__T1 == "2": 
-                                                suspect_ES "[pregunta3respuesta2]" 
+                                                secondSuspect "[pregunta3respuesta2]" 
                                             elif numRespuestaHumana2__T1 == "3": 
-                                                suspect_ES "[pregunta3respuesta3]" 
+                                                secondSuspect "[pregunta3respuesta3]" 
                                             elif numRespuestaHumana2__T1 == "4": 
-                                                suspect_ES "[pregunta3respuesta4]" 
+                                                secondSuspect "[pregunta3respuesta4]" 
                                             elif numRespuestaHumana2__T1 == "5": 
-                                                suspect_ES "[pregunta3respuesta5]" 
+                                                secondSuspect "[pregunta3respuesta5]" 
                                         else:
-                                            suspect_ES "[response3]"
+                                            secondSuspect "[response3]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema1sospechoso2castellano
                                     "Volver atrás":
                                         jump next_suspect
@@ -1198,47 +1232,50 @@ label start:
                                     "¿Qué estuviste haciendo anoche?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T2 == "1":                                        
-                                                suspect_ES "[pregunta4respuesta1]" 
+                                                secondSuspect "[pregunta4respuesta1]" 
                                             elif numRespuestaHumana2__T2 == "2": 
-                                                suspect_ES "[pregunta4respuesta2]" 
+                                                secondSuspect "[pregunta4respuesta2]" 
                                             elif numRespuestaHumana2__T2 == "3": 
-                                                suspect_ES "[pregunta4respuesta3]" 
+                                                secondSuspect "[pregunta4respuesta3]" 
                                             elif numRespuestaHumana2__T2 == "4": 
-                                                suspect_ES "[pregunta4respuesta4]" 
+                                                secondSuspect "[pregunta4respuesta4]" 
                                             elif numRespuestaHumana2__T2 == "5": 
-                                                suspect_ES "[pregunta4respuesta5]" 
+                                                secondSuspect "[pregunta4respuesta5]" 
                                         else:
-                                            suspect_ES "[response4]" 
+                                            secondSuspect "[response4]" 
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema2sospechoso2castellano
                                     "¿Sueles salir por la noche?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T2 == "1":                                        
-                                                suspect_ES "[pregunta5respuesta1]" 
+                                                secondSuspect "[pregunta5respuesta1]" 
                                             elif numRespuestaHumana2__T2 == "2": 
-                                                suspect_ES "[pregunta5respuesta2]" 
+                                                secondSuspect "[pregunta5respuesta2]" 
                                             elif numRespuestaHumana2__T2 == "3": 
-                                                suspect_ES "[pregunta5respuesta3]" 
+                                                secondSuspect "[pregunta5respuesta3]" 
                                             elif numRespuestaHumana2__T2 == "4": 
-                                                suspect_ES "[pregunta5respuesta4]" 
+                                                secondSuspect "[pregunta5respuesta4]" 
                                             elif numRespuestaHumana2__T2 == "5": 
-                                                suspect_ES "[pregunta5respuesta5]" 
+                                                secondSuspect "[pregunta5respuesta5]" 
                                         else:
-                                            suspect_ES "[response5]"
+                                            secondSuspect "[response5]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema2sospechoso2castellano
                                     "¿No tienes miedo de salir a esas horas?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T2 == "1":                                        
-                                                suspect_ES "[pregunta6respuesta1]" 
+                                                secondSuspect "[pregunta6respuesta1]" 
                                             elif numRespuestaHumana2__T2 == "2": 
-                                                suspect_ES "[pregunta6respuesta2]" 
+                                                secondSuspect "[pregunta6respuesta2]" 
                                             elif numRespuestaHumana2__T2 == "3": 
-                                                suspect_ES "[pregunta6respuesta3]"
+                                                secondSuspect "[pregunta6respuesta3]"
                                             elif numRespuestaHumana2__T2 == "4": 
-                                                suspect_ES "[pregunta6respuesta4]" 
+                                                secondSuspect "[pregunta6respuesta4]" 
                                             elif numRespuestaHumana2__T2 == "5": 
-                                                suspect_ES "[pregunta6respuesta5]"  
+                                                secondSuspect "[pregunta6respuesta5]"  
                                         else:
-                                            suspect_ES "[response6]"
+                                            secondSuspect "[response6]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema2sospechoso2castellano  
                                     "Volver atrás":
                                         jump next_suspect
@@ -1248,47 +1285,50 @@ label start:
                                     "¿Por qué pasaste por el vecindario?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T3 == "1":                                        
-                                                suspect_ES "[pregunta7respuesta1]" 
+                                                secondSuspect "[pregunta7respuesta1]" 
                                             elif numRespuestaHumana2__T3 == "2": 
-                                                suspect_ES "[pregunta7respuesta2]" 
+                                                secondSuspect "[pregunta7respuesta2]" 
                                             elif numRespuestaHumana2__T3 == "3": 
-                                                suspect_ES "[pregunta7respuesta3]" 
+                                                secondSuspect "[pregunta7respuesta3]" 
                                             elif numRespuestaHumana2__T3 == "4": 
-                                                suspect_ES "[pregunta7respuesta4]" 
+                                                secondSuspect "[pregunta7respuesta4]" 
                                             elif numRespuestaHumana2__T3 == "5": 
-                                                suspect_ES "[pregunta7respuesta5]" 
+                                                secondSuspect "[pregunta7respuesta5]" 
                                         else:
-                                            suspect_ES "[response7]" 
+                                            secondSuspect "[response7]" 
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema3sospechoso2castellano
                                     "¿Conocías a alguna persona del vecindario?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T3 == "1":                                        
-                                                suspect_ES "[pregunta8respuesta1]" 
+                                                secondSuspect "[pregunta8respuesta1]" 
                                             elif numRespuestaHumana2__T3 == "2": 
-                                                suspect_ES "[pregunta8respuesta2]" 
+                                                secondSuspect "[pregunta8respuesta2]" 
                                             elif numRespuestaHumana2__T3 == "3": 
-                                                suspect_ES "[pregunta8respuesta3]"
+                                                secondSuspect "[pregunta8respuesta3]"
                                             elif numRespuestaHumana2__T3 == "4": 
-                                                suspect_ES "[pregunta8respuesta4]" 
+                                                secondSuspect "[pregunta8respuesta4]" 
                                             elif numRespuestaHumana2__T3 == "5": 
-                                                suspect_ES "[pregunta8respuesta5]"  
+                                                secondSuspect "[pregunta8respuesta5]"  
                                         else:
-                                            suspect_ES "[response8]"
+                                            secondSuspect "[response8]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema3sospechoso2castellano
                                     "¿El vecindario es un lugar de tránsito frecuente para ti?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T3 == "1":                                        
-                                                suspect_ES "[pregunta9respuesta1]" 
+                                                secondSuspect "[pregunta9respuesta1]" 
                                             elif numRespuestaHumana2__T3 == "2": 
-                                                suspect_ES "[pregunta9respuesta2]" 
+                                                secondSuspect "[pregunta9respuesta2]" 
                                             elif numRespuestaHumana2__T3 == "3": 
-                                                suspect_ES "[pregunta9respuesta3]"
+                                                secondSuspect "[pregunta9respuesta3]"
                                             elif numRespuestaHumana2__T3 == "4": 
-                                                suspect_ES "[pregunta9respuesta4]" 
+                                                secondSuspect "[pregunta9respuesta4]" 
                                             elif numRespuestaHumana2__T3 == "5": 
-                                                suspect_ES "[pregunta9respuesta5]"  
+                                                secondSuspect "[pregunta9respuesta5]"  
                                         else:
-                                            suspect_ES "[response9]"
+                                            secondSuspect "[response9]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema3sospechoso2castellano  
                                     "Volver atrás":
                                         jump next_suspect
@@ -1298,60 +1338,63 @@ label start:
                                     "¿Tienes antecedentes penales?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T4 == "1":                                        
-                                                suspect_ES "[pregunta10respuesta1]" 
+                                                secondSuspect "[pregunta10respuesta1]" 
                                             elif numRespuestaHumana2__T4 == "2": 
-                                                suspect_ES "[pregunta10respuesta2]" 
+                                                secondSuspect "[pregunta10respuesta2]" 
                                             elif numRespuestaHumana2__T4 == "3": 
-                                                suspect_ES "[pregunta10respuesta3]" 
+                                                secondSuspect "[pregunta10respuesta3]" 
                                             elif numRespuestaHumana2__T4 == "4": 
-                                                suspect_ES "[pregunta10respuesta4]" 
+                                                secondSuspect "[pregunta10respuesta4]" 
                                             elif numRespuestaHumana2__T4 == "5": 
-                                                suspect_ES "[pregunta10respuesta5]" 
+                                                secondSuspect "[pregunta10respuesta5]" 
                                         else:
-                                            suspect_ES "[response10]" 
+                                            secondSuspect "[response10]" 
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema4sospechoso2castellano
                                     "¿Alguna vez han detenido a algún conocido tuyo?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T4 == "1":                                        
-                                                suspect_ES "[pregunta11respuesta1]" 
+                                                secondSuspect "[pregunta11respuesta1]" 
                                             elif numRespuestaHumana2__T4 == "2": 
-                                                suspect_ES "[pregunta11respuesta2]" 
+                                                secondSuspect "[pregunta11respuesta2]" 
                                             elif numRespuestaHumana2__T4 == "3": 
-                                                suspect_ES "[pregunta11respuesta3]" 
+                                                secondSuspect "[pregunta11respuesta3]" 
                                             elif numRespuestaHumana2__T4 == "4": 
-                                                suspect_ES "[pregunta11respuesta4]" 
+                                                secondSuspect "[pregunta11respuesta4]" 
                                             elif numRespuestaHumana2__T4 == "5": 
-                                                suspect_ES "[pregunta11respuesta5]" 
+                                                secondSuspect "[pregunta11respuesta5]" 
                                         else:
-                                            suspect_ES "[response11]"
+                                            secondSuspect "[response11]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema4sospechoso2castellano
                                     "¿Sabes cúal es la condena por asesinar a alguien?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T4 == "1":                                        
-                                                suspect_ES "[pregunta12respuesta1]" 
+                                                secondSuspect "[pregunta12respuesta1]" 
                                             elif numRespuestaHumana2__T4 == "2": 
-                                                suspect_ES "[pregunta12respuesta2]" 
+                                                secondSuspect "[pregunta12respuesta2]" 
                                             elif numRespuestaHumana2__T4 == "3": 
-                                                suspect_ES "[pregunta12respuesta3]" 
+                                                secondSuspect "[pregunta12respuesta3]" 
                                             elif numRespuestaHumana2__T4 == "4": 
-                                                suspect_ES "[pregunta12respuesta4]" 
+                                                secondSuspect "[pregunta12respuesta4]" 
                                             elif numRespuestaHumana2__T4 == "5": 
-                                                suspect_ES "[pregunta12respuesta5]" 
+                                                secondSuspect "[pregunta12respuesta5]" 
                                         else:
-                                            suspect_ES "[response12]"
+                                            secondSuspect "[response12]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema4sospechoso2castellano  
                                     "Volver atrás":
-                                        jump next_suspect           
-                        "Volver al sospechoso anterior.":
-                            hide sprite4 angry small with dissolve
-                            show sprite1 angry small with dissolve
-                            jump interrogation
+                                        jump next_suspect 
                         "Suficientes preguntas. Pasemos al siguiente sospechoso.":
                             you_ES "Por favor, deja pasar al tercer sospechoso."
                             hide sprite4 angry small with dissolve
                             think_ES "¿Qué debería preguntar ahora?"
                             show sprite2 angry small with dissolve                   
                             jump last_suspect 
+                        "Volver al sospechoso anterior.":
+                            hide sprite4 angry small with dissolve
+                            show sprite1 angry small with dissolve
+                            jump interrogation
                 else:                
                     #SEGUNDO INTERROGADO INGLÉS
                     menu:
@@ -1361,47 +1404,50 @@ label start:
                                     "Did you know the murdered neighbor?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T1 == "1":                                        
-                                                suspect_EN "[pregunta1respuesta1]" 
+                                                secondSuspect "[pregunta1respuesta1]" 
                                             elif numRespuestaHumana2__T1 == "2": 
-                                                suspect_EN "[pregunta1respuesta2]" 
+                                                secondSuspect "[pregunta1respuesta2]" 
                                             elif numRespuestaHumana2__T1 == "3": 
-                                                suspect_EN "[pregunta1respuesta3]" 
+                                                secondSuspect "[pregunta1respuesta3]" 
                                             elif numRespuestaHumana2__T1 == "4": 
-                                                suspect_ES "[pregunta1respuesta4]" 
+                                                secondSuspect "[pregunta1respuesta4]" 
                                             elif numRespuestaHumana2__T1 == "5": 
-                                                suspect_ES "[pregunta1respuesta5]" 
+                                                secondSuspect "[pregunta1respuesta5]" 
                                         else:
-                                            suspect_EN "[response1]" 
+                                            secondSuspect "[response1]" 
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema1sospechoso2ingles
                                     "Have you ever seen the neighbor on the street?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T1 == "1":                                        
-                                                suspect_EN "[pregunta2respuesta1]" 
+                                                secondSuspect "[pregunta2respuesta1]" 
                                             elif numRespuestaHumana2__T1 == "2": 
-                                                suspect_EN "[pregunta2respuesta2]" 
+                                                secondSuspect "[pregunta2respuesta2]" 
                                             elif numRespuestaHumana2__T1 == "3": 
-                                                suspect_EN "[pregunta2respuesta3]" 
+                                                secondSuspect "[pregunta2respuesta3]" 
                                             elif numRespuestaHumana2__T1 == "4": 
-                                                suspect_ES "[pregunta2respuesta4]" 
+                                                secondSuspect "[pregunta2respuesta4]" 
                                             elif numRespuestaHumana2__T1 == "5": 
-                                                suspect_ES "[pregunta2respuesta5]" 
+                                                secondSuspect "[pregunta2respuesta5]" 
                                         else:
-                                            suspect_EN "[response2]"
+                                            secondSuspect "[response2]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema1sospechoso2ingles
                                     "Have you ever heard of the neighbor?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T1 == "1":                                        
-                                                suspect_EN "[pregunta3respuesta1]" 
+                                                secondSuspect "[pregunta3respuesta1]" 
                                             elif numRespuestaHumana2__T1 == "2": 
-                                                suspect_EN "[pregunta3respuesta2]" 
+                                                secondSuspect "[pregunta3respuesta2]" 
                                             elif numRespuestaHumana2__T1 == "3": 
-                                                suspect_EN "[pregunta3respuesta3]" 
+                                                secondSuspect "[pregunta3respuesta3]" 
                                             elif numRespuestaHumana2__T1 == "4": 
-                                                suspect_ES "[pregunta3respuesta4]" 
+                                                secondSuspect "[pregunta3respuesta4]" 
                                             elif numRespuestaHumana2__T1 == "5": 
-                                                suspect_ES "[pregunta3respuesta5]" 
+                                                secondSuspect "[pregunta3respuesta5]" 
                                         else:
-                                            suspect_EN "[response3]"
+                                            secondSuspect "[response3]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema1sospechoso2ingles
                                     "Go back":
                                         jump next_suspect  
@@ -1411,47 +1457,50 @@ label start:
                                     "What were you doing last night?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T2 == "1":                                        
-                                                suspect_EN "[pregunta4respuesta1]" 
+                                                secondSuspect "[pregunta4respuesta1]" 
                                             elif numRespuestaHumana2__T2 == "2": 
-                                                suspect_EN "[pregunta4respuesta2]" 
+                                                secondSuspect "[pregunta4respuesta2]" 
                                             elif numRespuestaHumana2__T2 == "3": 
-                                                suspect_EN "[pregunta4respuesta3]" 
+                                                secondSuspect "[pregunta4respuesta3]" 
                                             elif numRespuestaHumana2__T2 == "4": 
-                                                suspect_ES "[pregunta4respuesta4]" 
+                                                secondSuspect "[pregunta4respuesta4]" 
                                             elif numRespuestaHumana2__T2 == "5": 
-                                                suspect_ES "[pregunta4respuesta5]" 
+                                                secondSuspect "[pregunta4respuesta5]" 
                                         else:
-                                            suspect_EN "[response4]" 
+                                            secondSuspect "[response4]" 
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema2sospechoso2ingles
                                     "Do you usually go out at night?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T2 == "1":                                        
-                                                suspect_EN "[pregunta5respuesta1]" 
+                                                secondSuspect "[pregunta5respuesta1]" 
                                             elif numRespuestaHumana2__T2 == "2": 
-                                                suspect_EN "[pregunta5respuesta2]" 
+                                                secondSuspect "[pregunta5respuesta2]" 
                                             elif numRespuestaHumana2__T2 == "3": 
-                                                suspect_EN "[pregunta5respuesta3]" 
+                                                secondSuspect "[pregunta5respuesta3]" 
                                             elif numRespuestaHumana2__T2 == "4": 
-                                                suspect_ES "[pregunta5respuesta4]" 
+                                                secondSuspect "[pregunta5respuesta4]" 
                                             elif numRespuestaHumana2__T2 == "5": 
-                                                suspect_ES "[pregunta5respuesta5]" 
+                                                secondSuspect "[pregunta5respuesta5]" 
                                         else:
-                                            suspect_EN "[response5]"
+                                            secondSuspect "[response5]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema2sospechoso2ingles
                                     "Aren't you afraid to go out at that time?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T2 == "1":                                        
-                                                suspect_EN "[pregunta6respuesta1]" 
+                                                secondSuspect "[pregunta6respuesta1]" 
                                             elif numRespuestaHumana2__T2 == "2": 
-                                                suspect_EN "[pregunta6respuesta2]" 
+                                                secondSuspect "[pregunta6respuesta2]" 
                                             elif numRespuestaHumana2__T2 == "3": 
-                                                suspect_EN "[pregunta6respuesta3]" 
+                                                secondSuspect "[pregunta6respuesta3]" 
                                             elif numRespuestaHumana2__T2 == "4": 
-                                                suspect_ES "[pregunta6respuesta4]" 
+                                                secondSuspect "[pregunta6respuesta4]" 
                                             elif numRespuestaHumana2__T2 == "5": 
-                                                suspect_ES "[pregunta6respuesta5]" 
+                                                secondSuspect "[pregunta6respuesta5]" 
                                         else:
-                                            suspect_EN "[response6]"
+                                            secondSuspect "[response6]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema2sospechoso2ingles  
                                     "Go back":
                                         jump next_suspect  
@@ -1461,47 +1510,50 @@ label start:
                                     "Why did you go through the neighborhood?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T3 == "1":                                        
-                                                suspect_EN "[pregunta7respuesta1]" 
+                                                secondSuspect "[pregunta7respuesta1]" 
                                             elif numRespuestaHumana2__T3 == "2": 
-                                                suspect_EN "[pregunta7respuesta2]" 
+                                                secondSuspect "[pregunta7respuesta2]" 
                                             elif numRespuestaHumana2__T3 == "3": 
-                                                suspect_EN "[pregunta7respuesta3]" 
+                                                secondSuspect "[pregunta7respuesta3]" 
                                             elif numRespuestaHumana2__T3 == "4": 
-                                                suspect_ES "[pregunta7respuesta4]" 
+                                                secondSuspect "[pregunta7respuesta4]" 
                                             elif numRespuestaHumana2__T3 == "5": 
-                                                suspect_ES "[pregunta7respuesta5]" 
+                                                secondSuspect "[pregunta7respuesta5]" 
                                         else:
-                                            suspect_EN "[response7]" 
+                                            secondSuspect "[response7]" 
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema3sospechoso2ingles
                                     "Did you know anyone in the neighborhood?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T3 == "1":                                        
-                                                suspect_EN "[pregunta8respuesta1]" 
+                                                secondSuspect "[pregunta8respuesta1]" 
                                             elif numRespuestaHumana2__T3 == "2": 
-                                                suspect_EN "[pregunta8respuesta2]" 
+                                                secondSuspect "[pregunta8respuesta2]" 
                                             elif numRespuestaHumana2__T3 == "3": 
-                                                suspect_EN "[pregunta8respuesta3]" 
+                                                secondSuspect "[pregunta8respuesta3]" 
                                             elif numRespuestaHumana2__T3 == "4": 
-                                                suspect_ES "[pregunta8respuesta4]" 
+                                                secondSuspect "[pregunta8respuesta4]" 
                                             elif numRespuestaHumana2__T3 == "5": 
-                                                suspect_ES "[pregunta8respuesta5]" 
+                                                secondSuspect "[pregunta8respuesta5]" 
                                         else:
-                                            suspect_EN "[response8]"
+                                            secondSuspect "[response8]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema3sospechoso2ingles
                                     "Is the neighborhood a frequent traffic place for you?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T3 == "1":                                        
-                                                suspect_EN "[pregunta9respuesta1]" 
+                                                secondSuspect "[pregunta9respuesta1]" 
                                             elif numRespuestaHumana2__T3 == "2": 
-                                                suspect_EN "[pregunta9respuesta2]" 
+                                                secondSuspect "[pregunta9respuesta2]" 
                                             elif numRespuestaHumana2__T3 == "3": 
-                                                suspect_EN "[pregunta9respuesta3]" 
+                                                secondSuspect "[pregunta9respuesta3]" 
                                             elif numRespuestaHumana2__T3 == "4": 
-                                                suspect_ES "[pregunta9respuesta4]" 
+                                                secondSuspect "[pregunta9respuesta4]" 
                                             elif numRespuestaHumana2__T3 == "5": 
-                                                suspect_ES "[pregunta9respuesta5]" 
+                                                secondSuspect "[pregunta9respuesta5]" 
                                         else:
-                                            suspect_EN "[response9]"
+                                            secondSuspect "[response9]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema3sospechoso2ingles  
                                     "Go back":
                                         jump next_suspect  
@@ -1511,60 +1563,63 @@ label start:
                                     "Do you have a criminal record?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T4 == "1":                                        
-                                                suspect_EN "[pregunta10respuesta1]" 
+                                                secondSuspect "[pregunta10respuesta1]" 
                                             elif numRespuestaHumana2__T4 == "2": 
-                                                suspect_EN "[pregunta10respuesta2]" 
+                                                secondSuspect "[pregunta10respuesta2]" 
                                             elif numRespuestaHumana2__T4 == "3": 
-                                                suspect_EN "[pregunta10respuesta3]" 
+                                                secondSuspect "[pregunta10respuesta3]" 
                                             elif numRespuestaHumana2__T4 == "4": 
-                                                suspect_ES "[pregunta10respuesta4]" 
+                                                secondSuspect "[pregunta10respuesta4]" 
                                             elif numRespuestaHumana2__T4 == "5": 
-                                                suspect_ES "[pregunta10respuesta5]" 
+                                                secondSuspect "[pregunta10respuesta5]" 
                                         else:
-                                            suspect_EN "[response10]" 
+                                            secondSuspect "[response10]" 
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema4sospechoso2ingles
                                     "Has anyone you know ever been arrested?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T4 == "1":                                        
-                                                suspect_EN "[pregunta11respuesta1]" 
+                                                secondSuspect "[pregunta11respuesta1]" 
                                             elif numRespuestaHumana2__T4 == "2": 
-                                                suspect_EN "[pregunta11respuesta2]" 
+                                                secondSuspect "[pregunta11respuesta2]" 
                                             elif numRespuestaHumana2__T4 == "3": 
-                                                suspect_EN "[pregunta11respuesta3]" 
+                                                secondSuspect "[pregunta11respuesta3]" 
                                             elif numRespuestaHumana2__T4 == "4": 
-                                                suspect_ES "[pregunta11respuesta4]" 
+                                                secondSuspect "[pregunta11respuesta4]" 
                                             elif numRespuestaHumana2__T4 == "5": 
-                                                suspect_ES "[pregunta11respuesta5]" 
+                                                secondSuspect "[pregunta11respuesta5]" 
                                         else:
-                                            suspect_EN "[response11]"
+                                            secondSuspect "[response11]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema4sospechoso2ingles
                                     "Do you know what the sentence is for murdering someone?":
                                         if killer != 2:
                                             if numRespuestaHumana2__T4 == "1":                                        
-                                                suspect_EN "[pregunta12respuesta1]" 
+                                                secondSuspect "[pregunta12respuesta1]" 
                                             elif numRespuestaHumana2__T4 == "2": 
-                                                suspect_EN "[pregunta12respuesta2]" 
+                                                secondSuspect "[pregunta12respuesta2]" 
                                             elif numRespuestaHumana2__T4 == "3": 
-                                                suspect_EN "[pregunta12respuesta3]" 
+                                                secondSuspect "[pregunta12respuesta3]" 
                                             elif numRespuestaHumana2__T4 == "4": 
-                                                suspect_ES "[pregunta12respuesta4]" 
+                                                secondSuspect "[pregunta12respuesta4]" 
                                             elif numRespuestaHumana2__T4 == "5": 
-                                                suspect_ES "[pregunta12respuesta5]" 
+                                                secondSuspect "[pregunta12respuesta5]" 
                                         else:
-                                            suspect_EN "[response12]"
+                                            secondSuspect "[response12]"
+                                        $num_pregs2 = num_pregs2 + 1   
                                         jump tema4sospechoso2ingles      
                                     "Go back":
-                                            jump next_suspect 
-                        "Go back to the previous suspect.":
-                            hide sprite4 angry small with dissolve
-                            show sprite1 angry small with dissolve
-                            jump interrogation    
+                                            jump next_suspect                         
                         "Enough questions. We move on to the next suspect.":
                             you_EN "Please, let the third suspect come through."
                             hide sprite4 angry small with dissolve
                             think_EN "What should I ask now?"
                             show sprite2 angry small with dissolve 
-                            jump last_suspect    
+                            jump last_suspect   
+                        "Go back to the previous suspect.":
+                            hide sprite4 angry small with dissolve
+                            show sprite1 angry small with dissolve
+                            jump interrogation     
 
                 label last_suspect:            
 
@@ -1577,47 +1632,50 @@ label start:
                                         "¿Conocías al vecino asesinado?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T1 == "1":                                        
-                                                    suspect_ES "[pregunta1respuesta1]" 
+                                                    thirdSuspect "[pregunta1respuesta1]" 
                                                 elif numRespuestaHumana3__T1 == "2": 
-                                                    suspect_ES "[pregunta1respuesta2]" 
+                                                    thirdSuspect "[pregunta1respuesta2]" 
                                                 elif numRespuestaHumana3__T1 == "3": 
-                                                    suspect_ES "[pregunta1respuesta3]" 
+                                                    thirdSuspect "[pregunta1respuesta3]" 
                                                 elif numRespuestaHumana3__T1 == "4": 
-                                                    suspect_ES "[pregunta1respuesta4]" 
+                                                    thirdSuspect "[pregunta1respuesta4]" 
                                                 elif numRespuestaHumana3__T1 == "5": 
-                                                    suspect_ES "[pregunta1respuesta5]" 
+                                                    thirdSuspect "[pregunta1respuesta5]" 
                                             else:
-                                                suspect_ES "[response1]" 
+                                                thirdSuspect "[response1]" 
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema1sospechoso3castellano
                                         "¿Alguna vez has visto al vecino por la calle?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T1 == "1":                                        
-                                                    suspect_ES "[pregunta2respuesta1]" 
+                                                    thirdSuspect "[pregunta2respuesta1]" 
                                                 elif numRespuestaHumana3__T1 == "2": 
-                                                    suspect_ES "[pregunta2respuesta2]" 
+                                                    thirdSuspect "[pregunta2respuesta2]" 
                                                 elif numRespuestaHumana3__T1 == "3": 
-                                                    suspect_ES "[pregunta2respuesta3]" 
+                                                    thirdSuspect "[pregunta2respuesta3]" 
                                                 elif numRespuestaHumana3__T1 == "4": 
-                                                    suspect_ES "[pregunta2respuesta4]" 
+                                                    thirdSuspect "[pregunta2respuesta4]" 
                                                 elif numRespuestaHumana3__T1 == "5": 
-                                                    suspect_ES "[pregunta2respuesta5]"
+                                                    thirdSuspect "[pregunta2respuesta5]"
                                             else:
-                                                suspect_ES "[response2]"
+                                                thirdSuspect "[response2]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema1sospechoso3castellano
                                         "¿Alguna vez has oído hablar del vecino?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T1 == "1":                                        
-                                                    suspect_ES "[pregunta3respuesta1]" 
+                                                    thirdSuspect "[pregunta3respuesta1]" 
                                                 elif numRespuestaHumana3__T1 == "2": 
-                                                    suspect_ES "[pregunta3respuesta2]" 
+                                                    thirdSuspect "[pregunta3respuesta2]" 
                                                 elif numRespuestaHumana3__T1 == "3": 
-                                                    suspect_ES "[pregunta3respuesta3]" 
+                                                    thirdSuspect "[pregunta3respuesta3]" 
                                                 elif numRespuestaHumana3__T1 == "4": 
-                                                    suspect_ES "[pregunta3respuesta4]" 
+                                                    thirdSuspect "[pregunta3respuesta4]" 
                                                 elif numRespuestaHumana3__T1 == "5": 
-                                                    suspect_ES "[pregunta3respuesta5]"
+                                                    thirdSuspect "[pregunta3respuesta5]"
                                             else:
-                                                suspect_ES "[response3]"
+                                                thirdSuspect "[response3]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema1sospechoso3castellano
                                         "Volver atrás":
                                             jump last_suspect
@@ -1627,47 +1685,50 @@ label start:
                                         "¿Qué estuviste haciendo anoche?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T2 == "1":                                        
-                                                    suspect_ES "[pregunta4respuesta1]" 
+                                                    thirdSuspect "[pregunta4respuesta1]" 
                                                 elif numRespuestaHumana3__T2 == "2": 
-                                                    suspect_ES "[pregunta4respuesta2]" 
+                                                    thirdSuspect "[pregunta4respuesta2]" 
                                                 elif numRespuestaHumana3__T2 == "3": 
-                                                    suspect_ES "[pregunta4respuesta3]" 
+                                                    thirdSuspect "[pregunta4respuesta3]" 
                                                 elif numRespuestaHumana3__T2 == "4": 
-                                                    suspect_ES "[pregunta4respuesta4]" 
+                                                    thirdSuspect "[pregunta4respuesta4]" 
                                                 elif numRespuestaHumana3__T2 == "5": 
-                                                    suspect_ES "[pregunta4respuesta5]"
+                                                    thirdSuspect "[pregunta4respuesta5]"
                                             else:
-                                                suspect_ES "[response4]" 
+                                                thirdSuspect "[response4]" 
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema2sospechoso3castellano
                                         "¿Sueles salir por la noche?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T2 == "1":                                        
-                                                    suspect_ES "[pregunta5respuesta1]" 
+                                                    thirdSuspect "[pregunta5respuesta1]" 
                                                 elif numRespuestaHumana3__T2 == "2": 
-                                                    suspect_ES "[pregunta5respuesta2]" 
+                                                    thirdSuspect "[pregunta5respuesta2]" 
                                                 elif numRespuestaHumana3__T2 == "3": 
-                                                    suspect_ES "[pregunta5respuesta3]" 
+                                                    thirdSuspect "[pregunta5respuesta3]" 
                                                 elif numRespuestaHumana3__T2 == "4": 
-                                                    suspect_ES "[pregunta5respuesta4]" 
+                                                    thirdSuspect "[pregunta5respuesta4]" 
                                                 elif numRespuestaHumana3__T2 == "5": 
-                                                    suspect_ES "[pregunta5respuesta5]"
+                                                    thirdSuspect "[pregunta5respuesta5]"
                                             else:
-                                                suspect_ES "[response5]"
+                                                thirdSuspect "[response5]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema2sospechoso3castellano
                                         "¿No tienes miedo de salir a esas horas?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T2 == "1":                                        
-                                                    suspect_ES "[pregunta6respuesta1]" 
+                                                    thirdSuspect "[pregunta6respuesta1]" 
                                                 elif numRespuestaHumana3__T2 == "2": 
-                                                    suspect_ES "[pregunta6respuesta2]" 
+                                                    thirdSuspect "[pregunta6respuesta2]" 
                                                 elif numRespuestaHumana3__T2 == "3": 
-                                                    suspect_ES "[pregunta6respuesta3]" 
+                                                    thirdSuspect "[pregunta6respuesta3]" 
                                                 elif numRespuestaHumana3__T2 == "4": 
-                                                    suspect_ES "[pregunta6respuesta4]" 
+                                                    thirdSuspect "[pregunta6respuesta4]" 
                                                 elif numRespuestaHumana3__T2 == "5": 
-                                                    suspect_ES "[pregunta6respuesta5]"
+                                                    thirdSuspect "[pregunta6respuesta5]"
                                             else:
-                                                suspect_ES "[response6]"
+                                                thirdSuspect "[response6]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema2sospechoso3castellano  
                                         "Volver atrás":
                                             jump last_suspect
@@ -1677,47 +1738,50 @@ label start:
                                         "¿Por qué pasaste por el vecindario?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T3 == "1":                                        
-                                                    suspect_ES "[pregunta7respuesta1]" 
+                                                    thirdSuspect "[pregunta7respuesta1]" 
                                                 elif numRespuestaHumana3__T3 == "2": 
-                                                    suspect_ES "[pregunta7respuesta2]" 
+                                                    thirdSuspect "[pregunta7respuesta2]" 
                                                 elif numRespuestaHumana3__T3 == "3": 
-                                                    suspect_ES "[pregunta7respuesta3]"
+                                                    thirdSuspect "[pregunta7respuesta3]"
                                                 elif numRespuestaHumana3__T3 == "4": 
-                                                    suspect_ES "[pregunta7respuesta4]" 
+                                                    thirdSuspect "[pregunta7respuesta4]" 
                                                 elif numRespuestaHumana3__T3 == "5": 
-                                                    suspect_ES "[pregunta7respuesta5]" 
+                                                    thirdSuspect "[pregunta7respuesta5]" 
                                             else:
-                                                suspect_ES "[response7]" 
+                                                thirdSuspect "[response7]" 
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema3sospechoso3castellano
                                         "¿Conocías a alguna persona del vecindario?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T3 == "1":                                        
-                                                    suspect_ES "[pregunta8respuesta1]" 
+                                                    thirdSuspect "[pregunta8respuesta1]" 
                                                 elif numRespuestaHumana3__T3 == "2": 
-                                                    suspect_ES "[pregunta8respuesta2]" 
+                                                    thirdSuspect "[pregunta8respuesta2]" 
                                                 elif numRespuestaHumana3__T3 == "3": 
-                                                    suspect_ES "[pregunta8respuesta3]" 
+                                                    thirdSuspect "[pregunta8respuesta3]" 
                                                 elif numRespuestaHumana3__T3 == "4": 
-                                                    suspect_ES "[pregunta8respuesta4]" 
+                                                    thirdSuspect "[pregunta8respuesta4]" 
                                                 elif numRespuestaHumana3__T3 == "5": 
-                                                    suspect_ES "[pregunta8respuesta5]"
+                                                    thirdSuspect "[pregunta8respuesta5]"
                                             else:
-                                                suspect_ES "[response8]"
+                                                thirdSuspect "[response8]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema3sospechoso3castellano
                                         "¿El vecindario es un lugar de tránsito frecuente para ti?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T3 == "1":                                        
-                                                    suspect_ES "[pregunta9respuesta1]" 
+                                                    thirdSuspect "[pregunta9respuesta1]" 
                                                 elif numRespuestaHumana3__T3 == "2": 
-                                                    suspect_ES "[pregunta9respuesta2]" 
+                                                    thirdSuspect "[pregunta9respuesta2]" 
                                                 elif numRespuestaHumana3__T3 == "3": 
-                                                    suspect_ES "[pregunta9respuesta3]" 
+                                                    thirdSuspect "[pregunta9respuesta3]" 
                                                 elif numRespuestaHumana3__T3 == "4": 
-                                                    suspect_ES "[pregunta9respuesta4]" 
+                                                    thirdSuspect "[pregunta9respuesta4]" 
                                                 elif numRespuestaHumana3__T3 == "5": 
-                                                    suspect_ES "[pregunta9respuesta5]"
+                                                    thirdSuspect "[pregunta9respuesta5]"
                                             else:
-                                                suspect_ES "[response9]"
+                                                thirdSuspect "[response9]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema3sospechoso3castellano  
                                         "Volver atrás":
                                             jump last_suspect
@@ -1727,57 +1791,60 @@ label start:
                                         "¿Tienes antecedentes penales?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T4 == "1":                                        
-                                                    suspect_ES "[pregunta10respuesta1]" 
+                                                    thirdSuspect "[pregunta10respuesta1]" 
                                                 elif numRespuestaHumana3__T4 == "2": 
-                                                    suspect_ES "[pregunta10respuesta2]" 
+                                                    thirdSuspect "[pregunta10respuesta2]" 
                                                 elif numRespuestaHumana3__T4 == "3": 
-                                                    suspect_ES "[pregunta10respuesta3]" 
+                                                    thirdSuspect "[pregunta10respuesta3]" 
                                                 elif numRespuestaHumana3__T4 == "4": 
-                                                    suspect_ES "[pregunta10respuesta4]" 
+                                                    thirdSuspect "[pregunta10respuesta4]" 
                                                 elif numRespuestaHumana3__T4 == "5": 
-                                                    suspect_ES "[pregunta10respuesta5]"
+                                                    thirdSuspect "[pregunta10respuesta5]"
                                             else:
-                                                suspect_ES "[response10]" 
+                                                thirdSuspect "[response10]" 
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema4sospechoso3castellano
                                         "¿Alguna vez han detenido a algún conocido tuyo?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T4 == "1":                                        
-                                                    suspect_ES "[pregunta11respuesta1]" 
+                                                    thirdSuspect "[pregunta11respuesta1]" 
                                                 elif numRespuestaHumana3__T4 == "2": 
-                                                    suspect_ES "[pregunta11respuesta2]" 
+                                                    thirdSuspect "[pregunta11respuesta2]" 
                                                 elif numRespuestaHumana3__T4 == "3": 
-                                                    suspect_ES "[pregunta11respuesta3]" 
+                                                    thirdSuspect "[pregunta11respuesta3]" 
                                                 elif numRespuestaHumana3__T4 == "4": 
-                                                    suspect_ES "[pregunta11respuesta4]" 
+                                                    thirdSuspect "[pregunta11respuesta4]" 
                                                 elif numRespuestaHumana3__T4 == "5": 
-                                                    suspect_ES "[pregunta11respuesta5]"
+                                                    thirdSuspect "[pregunta11respuesta5]"
                                             else:
-                                                suspect_ES "[response11]"
+                                                thirdSuspect "[response11]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema4sospechoso3castellano
                                         "¿Sabes cúal es la condena por asesinar a alguien?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T4 == "1":                                        
-                                                    suspect_ES "[pregunta12respuesta1]" 
+                                                    thirdSuspect "[pregunta12respuesta1]" 
                                                 elif numRespuestaHumana3__T4 == "2": 
-                                                    suspect_ES "[pregunta12respuesta2]" 
+                                                    thirdSuspect "[pregunta12respuesta2]" 
                                                 elif numRespuestaHumana3__T4 == "3": 
-                                                    suspect_ES "[pregunta12respuesta3]" 
+                                                    thirdSuspect "[pregunta12respuesta3]" 
                                                 elif numRespuestaHumana3__T4 == "4": 
-                                                    suspect_ES "[pregunta12respuesta4]" 
+                                                    thirdSuspect "[pregunta12respuesta4]" 
                                                 elif numRespuestaHumana3__T4 == "5": 
-                                                    suspect_ES "[pregunta12respuesta5]"
+                                                    thirdSuspect "[pregunta12respuesta5]"
                                             else:
-                                                suspect_ES "[response12]"
+                                                thirdSuspect "[response12]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema4sospechoso3castellano   
                                         "Volver atrás":
-                                            jump last_suspect          
-                            "Volver al sospechoso anterior.":
-                                hide sprite2 angry small with dissolve   
-                                show sprite4 angry small with dissolve 
-                                jump next_suspect                   
+                                            jump last_suspect    
                             "Suficientes preguntas. Creo que ya se quién es el androide.":
                                 hide sprite2 angry small with dissolve                       
                                 jump resolve_case 
+                            "Volver al sospechoso anterior.":
+                                hide sprite2 angry small with dissolve   
+                                show sprite4 angry small with dissolve 
+                                jump next_suspect          
                     else:                
                         #TERCER INTERROGADO INGLÉS
                         menu:
@@ -1787,47 +1854,50 @@ label start:
                                         "Did you know the murdered neighbor?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T1 == "1":                                        
-                                                    suspect_EN "[pregunta1respuesta1]" 
+                                                    thirdSuspect "[pregunta1respuesta1]" 
                                                 elif numRespuestaHumana3__T1 == "2": 
-                                                    suspect_EN "[pregunta1respuesta2]" 
+                                                    thirdSuspect "[pregunta1respuesta2]" 
                                                 elif numRespuestaHumana3__T1 == "3": 
-                                                    suspect_EN "[pregunta1respuesta3]" 
+                                                    thirdSuspect "[pregunta1respuesta3]" 
                                                 elif numRespuestaHumana3__T1 == "4": 
-                                                    suspect_ES "[pregunta1respuesta4]" 
+                                                    thirdSuspect "[pregunta1respuesta4]" 
                                                 elif numRespuestaHumana3__T1 == "5": 
-                                                    suspect_ES "[pregunta1respuesta5]"
+                                                    thirdSuspect "[pregunta1respuesta5]"
                                             else:
-                                                suspect_EN "[response1]" 
+                                                thirdSuspect "[response1]" 
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema1sospechoso3ingles
                                         "Have you ever seen the neighbor on the street?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T1 == "1":                                        
-                                                    suspect_EN "[pregunta2respuesta1]" 
+                                                    thirdSuspect "[pregunta2respuesta1]" 
                                                 elif numRespuestaHumana3__T1 == "2": 
-                                                    suspect_EN "[pregunta2respuesta2]" 
+                                                    thirdSuspect "[pregunta2respuesta2]" 
                                                 elif numRespuestaHumana3__T1 == "3": 
-                                                    suspect_EN "[pregunta2respuesta3]" 
+                                                    thirdSuspect "[pregunta2respuesta3]" 
                                                 elif numRespuestaHumana3__T1 == "4": 
-                                                    suspect_ES "[pregunta2respuesta4]" 
+                                                    thirdSuspect "[pregunta2respuesta4]" 
                                                 elif numRespuestaHumana3__T1 == "5": 
-                                                    suspect_ES "[pregunta2respuesta5]"
+                                                    thirdSuspect "[pregunta2respuesta5]"
                                             else:
-                                                suspect_EN "[response2]"
+                                                thirdSuspect "[response2]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema1sospechoso3ingles
                                         "Have you ever heard of the neighbor?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T1 == "1":                                        
-                                                    suspect_EN "[pregunta3respuesta1]" 
+                                                    thirdSuspect "[pregunta3respuesta1]" 
                                                 elif numRespuestaHumana3__T1 == "2": 
-                                                    suspect_EN "[pregunta3respuesta2]" 
+                                                    thirdSuspect "[pregunta3respuesta2]" 
                                                 elif numRespuestaHumana3__T1 == "3": 
-                                                    suspect_EN "[pregunta3respuesta3]" 
+                                                    thirdSuspect "[pregunta3respuesta3]" 
                                                 elif numRespuestaHumana3__T1 == "4": 
-                                                    suspect_ES "[pregunta3respuesta4]" 
+                                                    thirdSuspect "[pregunta3respuesta4]" 
                                                 elif numRespuestaHumana3__T1 == "5": 
-                                                    suspect_ES "[pregunta3respuesta5]"
+                                                    thirdSuspect "[pregunta3respuesta5]"
                                             else:
-                                                suspect_EN "[response3]"
+                                                thirdSuspect "[response3]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema1sospechoso3ingles
                                         "Go back":
                                             jump last_suspect
@@ -1837,47 +1907,50 @@ label start:
                                         "What were you doing last night?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T2 == "1":                                        
-                                                    suspect_EN "[pregunta4respuesta1]" 
+                                                    thirdSuspect "[pregunta4respuesta1]" 
                                                 elif numRespuestaHumana3__T2 == "2": 
-                                                    suspect_EN "[pregunta4respuesta2]" 
+                                                    thirdSuspect "[pregunta4respuesta2]" 
                                                 elif numRespuestaHumana3__T2 == "3": 
-                                                    suspect_EN "[pregunta4respuesta3]" 
+                                                    thirdSuspect "[pregunta4respuesta3]" 
                                                 elif numRespuestaHumana3__T2 == "4": 
-                                                    suspect_ES "[pregunta4respuesta4]" 
+                                                    thirdSuspect "[pregunta4respuesta4]" 
                                                 elif numRespuestaHumana3__T2 == "5": 
-                                                    suspect_ES "[pregunta4respuesta5]"
+                                                    thirdSuspect "[pregunta4respuesta5]"
                                             else:
-                                                suspect_EN "[response4]" 
+                                                thirdSuspect "[response4]" 
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema2sospechoso3ingles
                                         "Do you usually go out at night?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T2 == "1":                                        
-                                                    suspect_EN "[pregunta5respuesta1]" 
+                                                    thirdSuspect "[pregunta5respuesta1]" 
                                                 elif numRespuestaHumana3__T2 == "2": 
-                                                    suspect_EN "[pregunta5respuesta2]" 
+                                                    thirdSuspect "[pregunta5respuesta2]" 
                                                 elif numRespuestaHumana3__T2 == "3": 
-                                                    suspect_EN "[pregunta5respuesta3]" 
+                                                    thirdSuspect "[pregunta5respuesta3]" 
                                                 elif numRespuestaHumana3__T2 == "4": 
-                                                    suspect_ES "[pregunta5respuesta4]" 
+                                                    thirdSuspect "[pregunta5respuesta4]" 
                                                 elif numRespuestaHumana3__T2 == "5": 
-                                                    suspect_ES "[pregunta5respuesta5]"
+                                                    thirdSuspect "[pregunta5respuesta5]"
                                             else:
-                                                suspect_EN "[response5]"
+                                                thirdSuspect "[response5]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema2sospechoso3ingles
                                         "Aren't you afraid to go out at that time?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T2 == "1":                                        
-                                                    suspect_EN "[pregunta6respuesta1]" 
+                                                    thirdSuspect "[pregunta6respuesta1]" 
                                                 elif numRespuestaHumana3__T2 == "2": 
-                                                    suspect_EN "[pregunta6respuesta2]" 
+                                                    thirdSuspect "[pregunta6respuesta2]" 
                                                 elif numRespuestaHumana3__T2 == "3": 
-                                                    suspect_EN "[pregunta6respuesta3]"
+                                                    thirdSuspect "[pregunta6respuesta3]"
                                                 elif numRespuestaHumana3__T2 == "4": 
-                                                    suspect_ES "[pregunta6respuesta4]" 
+                                                    thirdSuspect "[pregunta6respuesta4]" 
                                                 elif numRespuestaHumana3__T2 == "5": 
-                                                    suspect_ES "[pregunta6respuesta5]"
+                                                    thirdSuspect "[pregunta6respuesta5]"
                                             else:
-                                                suspect_EN "[response6]"
+                                                thirdSuspect "[response6]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema2sospechoso3ingles  
                                         "Go back":
                                             jump last_suspect
@@ -1887,47 +1960,50 @@ label start:
                                         "Why did you go through the neighborhood?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T3 == "1":                                        
-                                                    suspect_EN "[pregunta7respuesta1]" 
+                                                    thirdSuspect "[pregunta7respuesta1]" 
                                                 elif numRespuestaHumana3__T3 == "2": 
-                                                    suspect_EN "[pregunta7respuesta2]" 
+                                                    thirdSuspect "[pregunta7respuesta2]" 
                                                 elif numRespuestaHumana3__T3 == "3": 
-                                                    suspect_EN "[pregunta7respuesta3]" 
+                                                    thirdSuspect "[pregunta7respuesta3]" 
                                                 elif numRespuestaHumana3__T3 == "4": 
-                                                    suspect_ES "[pregunta7respuesta4]" 
+                                                    thirdSuspect "[pregunta7respuesta4]" 
                                                 elif numRespuestaHumana3__T3 == "5": 
-                                                    suspect_ES "[pregunta7respuesta5]"
+                                                    thirdSuspect "[pregunta7respuesta5]"
                                             else:
-                                                suspect_EN "[response7]" 
+                                                thirdSuspect "[response7]" 
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema3sospechoso3ingles
                                         "Did you know anyone in the neighborhood?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T3 == "1":                                        
-                                                    suspect_EN "[pregunta8respuesta1]" 
+                                                    thirdSuspect "[pregunta8respuesta1]" 
                                                 elif numRespuestaHumana3__T3 == "2": 
-                                                    suspect_EN "[pregunta8respuesta2]" 
+                                                    thirdSuspect "[pregunta8respuesta2]" 
                                                 elif numRespuestaHumana3__T3 == "3": 
-                                                    suspect_EN "[pregunta8respuesta3]" 
+                                                    thirdSuspect "[pregunta8respuesta3]" 
                                                 elif numRespuestaHumana3__T3 == "4": 
-                                                    suspect_ES "[pregunta8respuesta4]" 
+                                                    thirdSuspect "[pregunta8respuesta4]" 
                                                 elif numRespuestaHumana3__T3 == "5": 
-                                                    suspect_ES "[pregunta8respuesta5]"
+                                                    thirdSuspect "[pregunta8respuesta5]"
                                             else:
-                                                suspect_EN "[response8]"
+                                                thirdSuspect "[response8]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema3sospechoso3ingles
                                         "Is the neighborhood a frequent traffic place for you?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T3 == "1":                                        
-                                                    suspect_EN "[pregunta9respuesta1]" 
+                                                    thirdSuspect "[pregunta9respuesta1]" 
                                                 elif numRespuestaHumana3__T3 == "2": 
-                                                    suspect_EN "[pregunta9respuesta2]" 
+                                                    thirdSuspect "[pregunta9respuesta2]" 
                                                 elif numRespuestaHumana3__T3 == "3": 
-                                                    suspect_EN "[pregunta9respuesta3]" 
+                                                    thirdSuspect "[pregunta9respuesta3]" 
                                                 elif numRespuestaHumana3__T3 == "4": 
-                                                    suspect_ES "[pregunta9respuesta4]" 
+                                                    thirdSuspect "[pregunta9respuesta4]" 
                                                 elif numRespuestaHumana3__T3 == "5": 
-                                                    suspect_ES "[pregunta9respuesta5]"
+                                                    thirdSuspect "[pregunta9respuesta5]"
                                             else:
-                                                suspect_EN "[response9]"
+                                                thirdSuspect "[response9]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema3sospechoso3ingles  
                                         "Go back":
                                             jump last_suspect
@@ -1937,57 +2013,60 @@ label start:
                                         "Do you have a criminal record?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T4 == "1":                                        
-                                                    suspect_EN "[pregunta10respuesta1]" 
+                                                    thirdSuspect "[pregunta10respuesta1]" 
                                                 elif numRespuestaHumana3__T4 == "2": 
-                                                    suspect_EN "[pregunta10respuesta2]" 
+                                                    thirdSuspect "[pregunta10respuesta2]" 
                                                 elif numRespuestaHumana3__T4 == "3": 
-                                                    suspect_EN "[pregunta10respuesta3]" 
+                                                    thirdSuspect "[pregunta10respuesta3]" 
                                                 elif numRespuestaHumana3__T4 == "4": 
-                                                    suspect_ES "[pregunta10respuesta4]" 
+                                                    thirdSuspect "[pregunta10respuesta4]" 
                                                 elif numRespuestaHumana3__T4 == "5": 
-                                                    suspect_ES "[pregunta10respuesta5]"
+                                                    thirdSuspect "[pregunta10respuesta5]"
                                             else:
-                                                suspect_EN "[response10]" 
+                                                thirdSuspect "[response10]" 
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema4sospechoso3ingles
                                         "Has anyone you know ever been arrested?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T4 == "1":                                        
-                                                    suspect_EN "[pregunta11respuesta1]" 
+                                                    thirdSuspect "[pregunta11respuesta1]" 
                                                 elif numRespuestaHumana3__T4 == "2": 
-                                                    suspect_EN "[pregunta11respuesta2]" 
+                                                    thirdSuspect "[pregunta11respuesta2]" 
                                                 elif numRespuestaHumana3__T4 == "3": 
-                                                    suspect_EN "[pregunta11respuesta3]" 
+                                                    thirdSuspect "[pregunta11respuesta3]" 
                                                 elif numRespuestaHumana3__T4 == "4": 
-                                                    suspect_ES "[pregunta11respuesta4]" 
+                                                    thirdSuspect "[pregunta11respuesta4]" 
                                                 elif numRespuestaHumana3__T4 == "5": 
-                                                    suspect_ES "[pregunta11respuesta5]"
+                                                    thirdSuspect "[pregunta11respuesta5]"
                                             else:
-                                                suspect_EN "[response11]"
+                                                thirdSuspect "[response11]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema4sospechoso3ingles
                                         "Do you know what the sentence is for murdering someone?":
                                             if killer != 3:
                                                 if numRespuestaHumana3__T4 == "1":                                        
-                                                    suspect_EN "[pregunta12respuesta1]" 
+                                                    thirdSuspect "[pregunta12respuesta1]" 
                                                 elif numRespuestaHumana3__T4 == "2": 
-                                                    suspect_EN "[pregunta12respuesta2]" 
+                                                    thirdSuspect "[pregunta12respuesta2]" 
                                                 elif numRespuestaHumana3__T4 == "3": 
-                                                    suspect_EN "[pregunta12respuesta3]" 
+                                                    thirdSuspect "[pregunta12respuesta3]" 
                                                 elif numRespuestaHumana3__T4 == "4": 
-                                                    suspect_ES "[pregunta12respuesta4]" 
+                                                    thirdSuspect "[pregunta12respuesta4]" 
                                                 elif numRespuestaHumana3__T4 == "5": 
-                                                    suspect_ES "[pregunta12respuesta5]"
+                                                    thirdSuspect "[pregunta12respuesta5]"
                                             else:
-                                                suspect_EN "[response12]"
+                                                thirdSuspect "[response12]"
+                                            $num_pregs3 = num_pregs3 + 1   
                                             jump tema4sospechoso3ingles  
                                         "Go back":
-                                            jump last_suspect       
+                                            jump last_suspect  
+                            "Enough questions. I think I know who the android is.":
+                                hide sprite2 angry small with dissolve                       
+                                jump resolve_case    
                             "Go back to the previous suspect.":
                                 hide sprite2 angry small with dissolve   
                                 show sprite4 angry small with dissolve 
-                                jump next_suspect              
-                            "Enough questions. I think I know who the android is.":
-                                hide sprite2 angry small with dissolve                       
-                                jump resolve_case      
+                                jump next_suspect      
 
                     label resolve_case:
                         show sprite3 sad small with dissolve
@@ -1995,22 +2074,22 @@ label start:
                         if version == "maria-large" or version == "maria-base" or version == "spanish":
                             police_ES "No hay más sospechosos, detective. Bien, ¿quién crees que puede ser el asesino?"
                             menu:
-                                "Primer sospechoso":
+                                "Anna":
                                     $election = 1
-                                "Segundo sospechoso":
+                                "Daniel":
                                     $election = 2
-                                "Tercer sospechoso":
+                                "Emma":
                                     $election = 3
                             police_ES "De acuerdo, puedes irte a casa. Ojalá hayamos tomado la decisión correcta."
                             
                         else:                        
                             police_EN "There are no more suspects, detective. Well, who do you think is the killer?"
                             menu:
-                                "First suspect":
+                                "Anna":
                                     $election = 1
-                                "Second suspect":
+                                "Daniel":
                                     $election = 2
-                                "Third suspect":
+                                "Emma":
                                     $election = 3
                             police_EN "Okay, you can go home. Hopefully the decision is correct."
 
@@ -2031,6 +2110,7 @@ label start:
                             stop sound fadeout 0.5
                             scene bg room with dissolve
                             if election != killer:
+                                $result = 'L'
                                 show sprite3 angry small with dissolve                     
                                 police_ES "Detective, ha habido un nuevo asesinato. El asesino aún está libre."
                                 hide sprite3 angry small with dissolve                                 
@@ -2039,15 +2119,16 @@ label start:
                                 pause 0.1    
                                 if killer == 1:
                                     show sprite1 happy small with Dissolve(0.25)  
-                                    "Has perdido... El androide era el primer sospechoso..."
+                                    "Has perdido... El androide era Anna..."
                                 elif killer == 2:
                                     show sprite4 happy small with Dissolve(0.25)   
-                                    "Has perdido... El androide era el segundo sospechoso..."
+                                    "Has perdido... El androide era Daniel..."
                                 elif killer == 3:
                                     show sprite2 happy small with Dissolve(0.25)  
-                                    "Has perdido... El androide era el tercer sospechoso..."                                
+                                    "Has perdido... El androide era Emma..."                                
                                 jump end
                             else:
+                                $result = 'W'
                                 show sprite3 happy small with dissolve
                                 police_ES "Detective, hemos pasado una noche tranquila. No ha habido más asesinatos. Creo que hemos acertado descubriendo al asesino."                        
                                 play sound "audio/521646__fupicat__winmutedguitar.ogg" volume 1 fadein 0.25                                
@@ -2055,19 +2136,20 @@ label start:
                                 pause 0.2
                                 if killer == 1:
                                     show sprite1 sad small with Dissolve(0.25)  
-                                    "¡Has ganado! ¡El androide era el primer sospechoso!"
+                                    "¡Has ganado! ¡El androide era Anna!"
                                 elif killer == 2:
                                     show sprite4 sad small with Dissolve(0.25)   
-                                    "¡Has ganado! ¡El androide era el segundo sospechoso!"
+                                    "¡Has ganado! ¡El androide era Daniel!"
                                 elif killer == 3:
                                     show sprite2 sad small with Dissolve(0.25)  
-                                    "¡Has ganado! ¡El androide era el tercer sospechoso!"                                
+                                    "¡Has ganado! ¡El androide era Emma!"                                
                                 jump end
                         else:
                             telephone_EN "Riiiiiing riiiiiiiing riiiiiing"
                             stop sound fadeout 0.5
                             scene bg room with dissolve
                             if election != killer:
+                                $result = 'L'
                                 show sprite3 angry small with dissolve                     
                                 police_EN "Detective, there's been a new murder. The killer is still free."
                                 hide sprite3 angry small with dissolve                                 
@@ -2076,15 +2158,16 @@ label start:
                                 pause 0.1                
                                 if killer == 1:
                                     show sprite1 happy small with Dissolve(0.25)  
-                                    "You lost... The android was the first suspect..."
+                                    "You lost... The android was Anna..."
                                 elif killer == 2:
                                     show sprite4 happy small with Dissolve(0.25)   
-                                    "You lost... The android was the second suspect..."
+                                    "You lost... The android was Daniel..."
                                 elif killer == 3:
                                     show sprite2 happy small with Dissolve(0.25)  
-                                    "You lost... The android was the third suspect..."                                
+                                    "You lost... The android was Emma..."                                
                                 jump end
                             else:
+                                $result = 'W'
                                 show sprite3 happy small with dissolve
                                 police_EN "Detective, we've had a quiet night. There have been no more murders. I think we succeeded in discovering the murderer."
                                 play sound "audio/521646__fupicat__winmutedguitar.ogg" volume 1 fadein 0.25                                
@@ -2092,15 +2175,78 @@ label start:
                                 pause 0.2
                                 if killer == 1:
                                     show sprite1 sad small with Dissolve(0.25)  
-                                    "You win! The android was the first suspect!"
+                                    "You win! The android was Anna!"
                                 elif killer == 2:
                                     show sprite4 sad small with Dissolve(0.25)   
-                                    "You win! The android was the second suspect!"
+                                    "You win! The android was Daniel!"
                                 elif killer == 3:
                                     show sprite2 sad small with Dissolve(0.25) 
-                                    "You win! The android was the third suspect!"                                
+                                    "You win! The android was Emma!"                                
                                 jump end
 
-                        label end:       
-                            stop sound fadeout 0.25                                               
+                        label end:   
+                            stop sound fadeout 0.25  
+                            window hide
+                            if election != killer:
+                                play sound "audio/613178__sound-designer-from-turkey__music-box-g-4-4-60-bpm.ogg" volume 0.25 fadein 1
+                                if killer == 1:
+                                    hide sprite1 happy small with Dissolve(0.25)  
+                                elif killer == 2:
+                                    hide sprite4 happy small with Dissolve(0.25)   
+                                elif killer == 3:
+                                    hide sprite2 happy small with Dissolve(0.25)  
+                            else:
+                                if killer == 1:
+                                    hide sprite1 sad small with Dissolve(0.25)  
+                                elif killer == 2:
+                                    hide sprite4 sad small with Dissolve(0.25)  
+                                elif killer == 3:
+                                    hide sprite2 sad small with Dissolve(0.25) 
+                            pause 0.5
+                            if version == "maria-large" or version == "maria-base" or version == "spanish":
+                                if election == killer:
+                                    show text "{color=#000000}{b}CRÉDITOS\n\n\n\n\n\n{/b}{/color}" with Dissolve(0.5) 
+                                    pause 2
+                                    show text "{color=#000000}{b}Diseñado, escrito y programado por\n\nFrancesc Bellido Delgado\n\n\n\n{/b}{/color}" with Dissolve(0.5) 
+                                else:
+                                    show text "{b}CRÉDITOS\n\n\n\n\n\n{/b}" with Dissolve(0.5) 
+                                    pause 2
+                                    show text "{b}Diseñado, escrito y programado por\n\nFrancesc Bellido Delgado\n\n\n\n{/b}" with Dissolve(0.5) 
+                            else:
+                                if election == killer:
+                                    show text "{color=#000000}{b}CREDITS\n\n\n\n\n\n{/b}{/color}" with Dissolve(0.5) 
+                                    pause 2
+                                    show text "{color=#000000}{b}Designed, written and programmed by\n\nFrancesc Bellido Delgado\n\n\n\n{/b}{/color}" with Dissolve(0.5) 
+                                else:
+                                    show text "{b}CREDITS\n\n\n\n\n\n{/b}" with Dissolve(0.5) 
+                                    pause 2
+                                    show text "{b}Designed, written and programmed by\n\nFrancesc Bellido Delgado\n\n\n\n{/b}" with Dissolve(0.5)
+                            python:
+                                nameFile = 'test.txt'
+                                contentFile = str(killer) + ':' + result + ';' + str(num_pregs1) + ';' + str(num_pregs2) + ';' + str(num_pregs3)
+                                requests.get('http://localhost:4000/file/' + nameFile + '/' + contentFile)       
+                            pause 1
+                            if version == "maria-large" or version == "maria-base" or version == "spanish":
+                                if election == killer:
+                                    show text "{color=#000000}{b}Imágenes de usuarios de itch.io\n\nFülli\nNoranekoGames\nPotat0Master\nKonett\n{/b}{/color}" with Dissolve(0.5) 
+                                    pause 3
+                                    show text "{color=#000000}{b}Sonidos de usuarios de Fresound\n\ninchadney\nsound_designer_from_Turkey\nInspectorJ\nFupicat\nTaranP{/b}{/color}" with Dissolve(0.5) 
+                                else:
+                                    show text "{b}Imágenes de usuarios de itch.io\n\nFülli\nNoranekoGames\nPotat0Master\nKonett\n{/b}" with Dissolve(0.5) 
+                                    pause 3
+                                    show text "{b}Sonidos de usuarios de Fresound\n\ninchadney\nsound_designer_from_Turkey\nInspectorJ\nFupicat\nTaranP{/b}" with Dissolve(0.5) 
+                            else:
+                                if election == killer:
+                                    show text "{color=#000000}{b}Images by itch.io users\n\nFülli\nNoranekoGames\nPotat0Master\nKonett\n{/b}{/color}" with Dissolve(0.5) 
+                                    pause 3
+                                    show text "{color=#000000}{b}Sounds by Fresound users\n\ninchadney\nsound_designer_from_Turkey\nInspectorJ\nFupicat\nTaranP{/b}{/color}" with Dissolve(0.5) 
+                                else:
+                                    show text "{b}Images by itch.io users\n\nFülli\nNoranekoGames\nPotat0Master\nKonett\n{/b}" with Dissolve(0.5) 
+                                    pause 3
+                                    show text "{b}Sounds by Fresound users\n\ninchadney\nsound_designer_from_Turkey\nInspectorJ\nFupicat\nTaranP{/b}" with Dissolve(0.5)                              
+                            pause 1
+                            if election != killer:
+                                stop sound fadeout 0.5     
+                            pause 1                                           
                             return
+

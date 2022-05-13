@@ -1,8 +1,10 @@
+from ast import Break
 from itertools import count
 import re
 import sys, os
 from typing import Literal
 from flask import Flask, jsonify
+from regex import F
 
 def override_where():
     return os.path.abspath("cacert.pem")
@@ -204,6 +206,33 @@ def lineasIguales(sequence, text):
 
     return b
 
+#Comprobamos que el texto hay tanto mayúsculas como minúsculas
+def thereAreMayusAndMinus(text):
+    mayus = False
+    minus = False
+    for s in text:
+        if s == ' ' or s == 'A' or s == 'B' or s == 'C' or s == 'D' or s == 'E' or s == 'F' or s == 'G' or s == 'H' or s == 'I' or s == 'J' or s == 'K' or s == 'L' or s == 'M' or s == 'N' or s == 'O' or s == 'P' or s == 'Q' or s == 'R' or s == 'S' or s == 'T' or s == 'U' or s == 'V' or s == 'W' or s == 'X' or s == 'Y' or s == 'Z':
+            mayus = True 
+            break
+    if mayus == True:
+        for s in text:
+            if s != 'a' or s == 'b' or s == 'c' or s == 'd' or s == 'e' or s == 'f' or s == 'g' or s == 'h' or s == 'i' or s == 'j' or s == 'k' or s == 'l' or s == 'm' or s == 'n' or s == 'o' or s == 'p' or s == 'q' or s == 'r' or s == 's' or s == 't' or s == 'u' or s == 'v' or s == 'w' or s == 'x' or s == 'y' or s == 'z':
+                minus = True 
+                break
+    return minus
+
+#Comprobamos si el texto tiene espacios
+def thereAreSpaces(text):
+    for s in text:
+        if s == ' ' or s == '\t' or s.isspace() == True:
+            return True
+    return False
+
+#Buscamos en el texto la palabra 'i' para sustituirla por 'I' en el texto en inglés
+def changeiForI(text):
+    text.replace(" i ", " I ")
+    return text
+
 @app.route('/gpt2/<string:version>/<string:sequence>')
 def getSentenceGPT2(version, sequence):   
 
@@ -225,7 +254,7 @@ def getSentenceGPT2(version, sequence):
     sequence = constructSequence(sequence)
 
     initialSequence = "The following conversation is the police interrogation of a murder suspect. The suspect answers very sure of his innocence and in perfect English.\n"
-    if version == "maria-large" or version == "maria-base":
+    if version == "maria-large" or version == "maria-base" or version == "spanish":
         initialSequence = "La siguiente conversación es el interrogatorio de la policía a un sospechoso por asesinato. El sospechoso responde muy seguro de su inocencia y en un perfecto castellano.\n"
 
     sequence = initialSequence + sequence   
@@ -234,7 +263,7 @@ def getSentenceGPT2(version, sequence):
     text = ""
     counterEmpty = -1
     preSequence = sequence
-    while text == "" or len(text) < 7 or len(text) > 200 or startWithMayus(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "openai" and is_ascii(text) == False) or ((version == "maria-large" or version == "maria-base") and is_ascii2(text, version) == False):         
+    while text == "" or len(text) < 7 or len(text) > 200 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "openai" and is_ascii(text) == False) or ((version == "maria-large" or version == "maria-base") and is_ascii2(text, version) == False):         
 
         if text == "":
             counterEmpty = counterEmpty + 1
@@ -257,6 +286,8 @@ def getSentenceGPT2(version, sequence):
         text = truncarHastaPrimerPunto(text)  
 
     textExit = ' ' + text
+    if version != "maria-large" and version != "maria-base" and version != "spanish":
+        textExit = changeiForI(textExit)
     textExit = finalizeTextExit(textExit)    
     return jsonify({"message": textExit})
 
@@ -288,7 +319,7 @@ def getSentenceGPT3(version, sequence):
 
     text = ""
     preSequence = sequence
-    while text == "" or len(text) < 7 or startWithMayus(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "english" and is_ascii(text) == False) or (version == "spanish" and is_ascii2(text, version) == False):
+    while text == "" or len(text) < 7 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "english" and is_ascii(text) == False) or (version == "spanish" and is_ascii2(text, version) == False):
 
         if version == "english":
             response = openai.Completion.create(
@@ -318,10 +349,19 @@ def getSentenceGPT3(version, sequence):
         text = response.choices[0].text
 
     textExit = text.strip()
+    if version == "english":
+        textExit = changeiForI(textExit)
     textExit = finalizeTextExit(textExit) 
     textExit = " ".join( textExit.split() )
     
     return jsonify({"message": textExit})
+
+@app.route('/file/<string:nameFile>/<string:sequence>')
+def createFile(nameFile, sequence):  
+    f = open(nameFile, 'a+')
+    f.write(sequence + '\n')
+    f.close()
+    return True
 
 if __name__ == '__main__':
     app.run(debug=False, port=4000)
