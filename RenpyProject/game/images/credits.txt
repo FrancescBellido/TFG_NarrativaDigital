@@ -2,16 +2,18 @@ Este juego usa assets de libre uso para las imágenes de los personajes y de las
 
 Agradecer a los siguientes usuarios de itch.io por sus imágenes:
 
-- fuelli
-- noranekogames
-- potat0master
-- konett
+- Fülli
+- NoranekoGames
+- Potat0Master
+- Konett
 
 Agradecer a los siguientes usuarios de Freesound por sus sonidos:
 
 - inchadney
 - sound_designer_from_Turkey
 - InspectorJ
+- Fupicat
+- TaranP
 
 A continuación comparto los enlaces donde se pueden obtener todos las imágenes y sonidos usados en el juego:
 
