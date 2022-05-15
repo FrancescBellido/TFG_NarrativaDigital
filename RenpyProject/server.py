@@ -277,7 +277,7 @@ def getSentenceGPT2(version, sequence):
     text = ""
     counterEmpty = -1
     preSequence = sequence
-    while text == "" or len(text) < 15 or len(text) > 200 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text, "gpt2", version) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "openai" and is_ascii(text) == False) or ((version == "maria-large" or version == "maria-base") and is_ascii2(text, version) == False):         
+    while text == "" or len(text) < 15 or len(text) > 180 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text, "gpt2", version) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "openai" and is_ascii(text) == False) or ((version == "maria-large" or version == "maria-base") and is_ascii2(text, version) == False):         
 
         if text == "":
             counterEmpty = counterEmpty + 1
@@ -333,7 +333,7 @@ def getSentenceGPT3(version, sequence):
 
     text = ""
     preSequence = sequence
-    while text == "" or len(text) < 15 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text, "gpt3", version) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "english" and is_ascii(text) == False) or (version == "spanish" and is_ascii2(text, version) == False):
+    while text == "" or len(text) < 15 or len(text) > 180 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text, "gpt3", version) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "english" and is_ascii(text) == False) or (version == "spanish" and is_ascii2(text, version) == False):
 
         if version == "english":
             response = openai.Completion.create(
