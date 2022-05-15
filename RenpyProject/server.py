@@ -1,10 +1,5 @@
-from ast import Break
-from itertools import count
-import re
 import sys, os
-from typing import Literal
 from flask import Flask, jsonify
-from regex import F
 
 def override_where():
     return os.path.abspath("cacert.pem")
@@ -195,14 +190,33 @@ def truncarHastaPrimerPunto(text):
     return finalText
 
 #Comprobamos si la nueva línea es igual a alguna anterior
-def lineasIguales(sequence, text):
+def lineasIguales(sequence, text, model, version):
 
     b = False
     lines = sequence.split('\n')
 
     for line in lines:
-        if line == text:
-            b = True
+        textToCompare = line.split(': ')
+        if len(textToCompare) > 0:
+            for t in textToCompare:
+                if t == text:                    
+                    b = True
+                    break
+                else:
+                    if model == "gpt2":
+                        t = ' ' + t
+                        if version != "maria-large" and version != "maria-base" and version != "spanish":
+                            t = changeiForI(t)
+                        t = finalizeTextExit(t)
+                    else:
+                        t = t.strip()
+                        if version == "english":
+                            t = changeiForI(t)
+                        t = finalizeTextExit(t) 
+                        t = " ".join( t.split() )
+                    if t == text:                    
+                        b = True
+                        break
 
     return b
 
@@ -263,7 +277,7 @@ def getSentenceGPT2(version, sequence):
     text = ""
     counterEmpty = -1
     preSequence = sequence
-    while text == "" or len(text) < 7 or len(text) > 200 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "openai" and is_ascii(text) == False) or ((version == "maria-large" or version == "maria-base") and is_ascii2(text, version) == False):         
+    while text == "" or len(text) < 15 or len(text) > 200 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text, "gpt2", version) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "openai" and is_ascii(text) == False) or ((version == "maria-large" or version == "maria-base") and is_ascii2(text, version) == False):         
 
         if text == "":
             counterEmpty = counterEmpty + 1
@@ -275,10 +289,10 @@ def getSentenceGPT2(version, sequence):
 
         if version != "maria-large" and version != "maria-base" and version != "spanish":
             inputs = tokenizer.encode(sequence, return_tensors='pt', add_special_tokens=False, return_overflowing_tokens=False, return_special_tokens_mask=False)
-            outputs = model.generate(inputs, max_length=len(sequence)+10, do_sample=True) 
+            outputs = model.generate(inputs, max_length=len(sequence)+10, min_length=15, do_sample=True) 
         else:
             inputs = tokenizer.encode(sequence, return_tensors='pt', return_overflowing_tokens=False, return_special_tokens_mask=False)
-            outputs = model.generate(inputs, max_length=len(sequence)+120, do_sample=True)             
+            outputs = model.generate(inputs, max_length=len(sequence)+120, min_length=15, do_sample=True)             
          
         text = tokenizer.decode(outputs[0], skip_special_tokens=True)        
         text = searchResponseCountOrder(text, order)
@@ -319,14 +333,14 @@ def getSentenceGPT3(version, sequence):
 
     text = ""
     preSequence = sequence
-    while text == "" or len(text) < 7 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "english" and is_ascii(text) == False) or (version == "spanish" and is_ascii2(text, version) == False):
+    while text == "" or len(text) < 15 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text, "gpt3", version) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "english" and is_ascii(text) == False) or (version == "spanish" and is_ascii2(text, version) == False):
 
         if version == "english":
             response = openai.Completion.create(
                 engine="davinci",
                 prompt=sequence,
                 temperature=1,
-                max_tokens=100,
+                max_tokens=120,
                 top_p=1,
                 n=1,
                 frequency_penalty=0,
@@ -338,7 +352,7 @@ def getSentenceGPT3(version, sequence):
                 engine="davinci",
                 prompt=sequence,
                 temperature=1,
-                max_tokens=100,
+                max_tokens=120,
                 top_p=1,
                 n=1,
                 frequency_penalty=0,
@@ -361,7 +375,7 @@ def createFile(nameFile, sequence):
     f = open(nameFile, 'a+')
     f.write(sequence + '\n')
     f.close()
-    return True
+    return "typed"
 
 if __name__ == '__main__':
     app.run(debug=False, port=4000)

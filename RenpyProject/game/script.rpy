@@ -37,22 +37,21 @@
         message = message.strip()
         return message
     
-    def responseSumConversation (message, conversation, model):
-        if model == "gpt2":
-            conversation += ' ' + message  
-            conversation = deletePartConversation(conversation)
-        else:
-            conversation += message 
+    def responseSumConversation (message, conversation, model):        
+        if message[0] != ' ' and message[0] != '\t' and message[0].isspace() == False:
+                conversation += ' '
+        conversation += message 
+        conversation = deletePartConversation(conversation, 6)
         conversation = prepareMessage(conversation)
         conversation = prepareSentence(conversation)
         return conversation  
 
     #Reducimos el número de líneas de diálogo para evitar problemas con el max_length
-    def deletePartConversation(sequence):
+    def deletePartConversation(sequence, max):
 
         linesTotal = sequence.split('\n')   
 
-        if len(linesTotal) >= 6:
+        if len(linesTotal) >= max:
 
             linesConver = []
             for line in linesTotal:
@@ -60,7 +59,7 @@
                     linesConver.append(line)
 
             counter = 0
-            while len(linesTotal) >= 6:
+            while len(linesTotal) >= max:
                 linesTotal.remove(linesConver[counter])
                 linesTotal.remove(linesConver[counter+1])
                 counter = counter + 2
