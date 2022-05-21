@@ -247,6 +247,38 @@ def changeiForI(text):
     text.replace(" i ", " I ")
     return text
 
+#Buscamos si una palabra contiene mayusculas posteriores a la inicial
+def mayusAMitadPalabra(text):
+    b = False
+    words = text.split(' ')
+    for w in words:
+        if len(w) > 1:
+            counter = 0
+            for s in w:
+                if counter > 0:
+                    if s == 'A' or s == 'B' or s == 'C' or s == 'D' or s == 'E' or s == 'F' or s == 'G' or s == 'H' or s == 'I' or s == 'J' or s == 'K' or s == 'L' or s == 'M' or s == 'N' or s == 'O' or s == 'P' or s == 'Q' or s == 'R' or s == 'S' or s == 'T' or s == 'U' or s == 'V' or s == 'W' or s == 'X' or s == 'Y' or s == 'Z':
+                        b = True
+                counter = counter + 1
+    return b
+
+#Buscamos si una palabra repite 3 o más veces una letra seguidamente
+def letrasRepetidas(text):
+    b = False
+    counter = 0
+    words = text.split(' ')
+    for w in words:
+        if len(w) > 2:
+            anterior = ''
+            for s in w:
+                if s == anterior:
+                    counter = counter + 1
+                else: counter = 0
+                if counter > 2:
+                    b = True            
+                anterior = s
+    return b
+        
+
 @app.route('/gpt2/<string:version>/<string:sequence>')
 def getSentenceGPT2(version, sequence):   
 
@@ -277,7 +309,7 @@ def getSentenceGPT2(version, sequence):
     text = ""
     counterEmpty = -1
     preSequence = sequence
-    while text == "" or len(text) < 15 or len(text) > 180 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text, "gpt2", version) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "openai" and is_ascii(text) == False) or ((version == "maria-large" or version == "maria-base") and is_ascii2(text, version) == False):         
+    while text == "" or len(text) < 15 or len(text) > 180 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text, "gpt2", version) == True or mayusAMitadPalabra(text) == True or letrasRepetidas(text) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "openai" and is_ascii(text) == False) or ((version == "maria-large" or version == "maria-base") and is_ascii2(text, version) == False):         
 
         if text == "":
             counterEmpty = counterEmpty + 1
@@ -316,7 +348,6 @@ def decode(key, filename):
 def getSentenceGPT3(version, sequence):  
 
     import openai
-    import sys
       
     OPENAI_API_KEY=decode("26", "keys/OPENAI_API_KEY")
     openai.organization = decode("32", "keys/OPENAI_ORGANIZATION")
@@ -333,7 +364,7 @@ def getSentenceGPT3(version, sequence):
 
     text = ""
     preSequence = sequence
-    while text == "" or len(text) < 15 or len(text) > 180 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text, "gpt3", version) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "english" and is_ascii(text) == False) or (version == "spanish" and is_ascii2(text, version) == False):
+    while text == "" or len(text) < 15 or len(text) > 180 or startWithMayus(text) == False or thereAreMayusAndMinus(text) == False or thereAreSpaces(text) == False or isAllStringEqual(text) == True or lineasIguales(preSequence, text, "gpt3", version) == True or mayusAMitadPalabra(text) == True or letrasRepetidas(text) == True or maxPoints(text) > 1 or thereIsParentesis(text) or (version == "english" and is_ascii(text) == False) or (version == "spanish" and is_ascii2(text, version) == False):
 
         if version == "english":
             response = openai.Completion.create(
